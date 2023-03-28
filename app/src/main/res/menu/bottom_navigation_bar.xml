@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/principal"
+        android:icon="@drawable/home_icon"
+        android:title="Principal"  />
+    <item
+        android:id="@+id/busqueda"
+        android:icon="@drawable/search_icon"
+        android:title="Search" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/user_icon"
+        android:title="Setting" />
+</menu>
