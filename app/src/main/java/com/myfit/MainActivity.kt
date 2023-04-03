@@ -2,7 +2,10 @@ package com.myfit
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.myfit.view.FragmentRutina
+import com.myfit.view.FragmentUsuario
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,12 +15,14 @@ class MainActivity : AppCompatActivity() {
         nav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.principal -> {
+                    showFragment(FragmentRutina())
                     true
                 }
                 R.id.busqueda -> {
                     true
                 }
                 R.id.settings -> {
+                    showFragment(FragmentUsuario())
                     true
                 }
                 else -> {
@@ -26,4 +31,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    fun showFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contenedor, fragment)
+            .commit()
+    }
+
 }

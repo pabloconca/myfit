@@ -8,4 +8,8 @@
         android:id="@+id/fragmentRutina"
         android:name="com.myfit.view.FragmentRutina"
         android:label="FragmentRutina" />
+    <fragment
+        android:id="@+id/fragmentUsuario"
+        android:name="com.myfit.view.FragmentUsuario"
+        android:label="FragmentUsuario" />
 </navigation>

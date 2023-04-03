@@ -1,4 +1,4 @@
 package com.myfit.modelo
 
-class Usuario {
+class Usuario(var id : String, var email:String, var password:String, var nickname:String) {
 }
