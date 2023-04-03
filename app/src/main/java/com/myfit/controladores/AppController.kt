@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AppController {
     lateinit var retrofit: ProveedorServicios
     fun inicializarRetrofit(){
-        val url = "http://localhost:8080/myfit/content/"
+        val url = "http://10.0.2.2:8080/myfit/content/"
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
