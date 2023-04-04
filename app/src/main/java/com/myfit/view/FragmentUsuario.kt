@@ -27,15 +27,7 @@ class FragmentUsuario : Fragment(){
         var usuario = Usuario("1","pablo@pablo","a","pablo ");
         adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
         recycler = vista.findViewById(R.id.recycler)
-        val navController= NavHostFragment.findNavController(this)
-        adaptador.clickCorto(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                var posicion=recycler.getChildAdapterPosition(p0!!)
-                if (navController.currentDestination?.id == R.id.fragmentUsuario)
-                navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarPassword)
-            }
-
-        })
+        clickManager()
 
         recycler.adapter = adaptador
         recycler.layoutManager=
@@ -43,5 +35,16 @@ class FragmentUsuario : Fragment(){
         return vista
     }
 
+    fun clickManager(){
+        val navController= NavHostFragment.findNavController(this)
+        adaptador.clickCorto(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var posicion=recycler.getChildAdapterPosition(p0!!)
+                if (navController.currentDestination?.id == R.id.fragmentUsuario)
+                    navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarPassword)
+            }
+
+        })
+    }
 
 }

@@ -15,7 +15,11 @@
     <fragment
         android:id="@+id/fragmentRutina"
         android:name="com.myfit.view.FragmentRutina"
-        android:label="FragmentRutina" />
+        android:label="FragmentRutina" >
+        <action
+            android:id="@+id/action_fragmentRutina_to_fragmentCrearRutina"
+            app:destination="@id/fragmentCrearRutina" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentUsuario"
         android:name="com.myfit.view.FragmentUsuario"
@@ -24,4 +28,8 @@
             android:id="@+id/action_fragmentUsuario_to_fragmentEditarPassword"
             app:destination="@id/fragmentEditarPassword" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentCrearRutina"
+        android:name="com.myfit.view.FragmentCrearRutina"
+        android:label="FragmentCrearRutina" />
 </navigation>
