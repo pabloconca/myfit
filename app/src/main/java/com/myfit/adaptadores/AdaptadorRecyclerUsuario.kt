@@ -8,32 +8,37 @@ import android.widget.TextView
 import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.myfit.R
+import com.myfit.modelo.Usuario
 
 private const val ELEMENTO_UNO = 1
-class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?) :
-    RecyclerView.Adapter<AdaptadorRecyclerUsuario.Holder>(),View.OnClickListener{
+class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?, var usuario: Usuario) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener{
     lateinit var listenerClick:View.OnClickListener;
+    lateinit var holder:RecyclerView.ViewHolder
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): RecyclerView.ViewHolder {
+        var view: View
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
-        return if(i == ELEMENTO_UNO){
-            val itemView: View = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.linea_uno_fragment_usuario, viewGroup, false)
-            itemView.setOnClickListener(this)
-            HolderGrande(itemView)
+        when(i){
+            0 ->{
+                view =LayoutInflater.from(viewGroup.context).inflate(R.layout.linea_uno_fragment_usuario,viewGroup,false)
+                holder = HolderGrande(view)
+            }
 
-        }else{
-            val itemView: View = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.linea_fragment_usuario, viewGroup, false)
-            itemView.setOnClickListener(this)
-            Holder(itemView)
+            1 ->{
+                view =LayoutInflater.from(viewGroup.context).inflate(R.layout.linea_fragment_usuario,viewGroup,false)
+                holder = HolderPeque(view)
 
+            }
         }
+        return holder
 
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val element= datos?.get(position)
-        holder.bind(element)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(holder.itemViewType){
+            0 ->(holder as HolderGrande).bind(usuario)
+            1 ->(holder as HolderPeque).bind(datos?.get(position))
+        }
     }
     override fun getItemCount(): Int {
         return datos?.size?:0
@@ -46,12 +51,14 @@ class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?) :
     override fun onClick(p0: View?) {
         listenerClick?.onClick(p0)
     }
-
-    open inner class Holder(v: View) : RecyclerView.ViewHolder(v) {
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) 0 else 1
+    }
+    inner class HolderPeque(v: View) : RecyclerView.ViewHolder(v) {
         val texto: TextView
 
 
-        open fun bind(text:String?) {
+        fun bind(text:String?) {
             texto.text = text
             texto.textSize = 20f
             val layoutParams = texto.layoutParams as ViewGroup.MarginLayoutParams
@@ -62,18 +69,20 @@ class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?) :
             texto = v.findViewById(R.id.texto)
         }
     }
-    inner class HolderGrande(v: View) : Holder(v) {
+    inner class HolderGrande(v: View) : RecyclerView.ViewHolder(v) {
         val nombre: TextView
         val email: TextView
 
 
-        override fun bind(text:String?) {
-            nombre.text = text
-            email.text = text
+        fun bind(usuario: Usuario) {
+            nombre.text = usuario.usuario
+            email.text = usuario.email
         }
         init {
             nombre = v.findViewById(R.id.nombre)
             email = v.findViewById(R.id.email)
         }
     }
+
+
 }
