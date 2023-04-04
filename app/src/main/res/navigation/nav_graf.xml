@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graf"
     app:startDestination="@id/fragmentRutina">
+
+    <fragment
+        android:id="@+id/fragmentEditarPassword"
+        android:name="com.myfit.view.FragmentEditarPassword"
+        android:label="FragmentEditarPassword" />
+    <fragment
+        android:id="@+id/fragmentExplorar"
+        android:name="com.myfit.view.FragmentExplorar"
+        android:label="FragmentExplorar" />
     <fragment
         android:id="@+id/fragmentRutina"
         android:name="com.myfit.view.FragmentRutina"
@@ -11,9 +19,9 @@
     <fragment
         android:id="@+id/fragmentUsuario"
         android:name="com.myfit.view.FragmentUsuario"
-        android:label="FragmentUsuario" />
-    <fragment
-        android:id="@+id/fragmentExplorar"
-        android:name="com.myfit.view.FragmentExplorar"
-        android:label="FragmentExplorar" />
+        android:label="FragmentUsuario" >
+        <action
+            android:id="@+id/action_fragmentUsuario_to_fragmentEditarPassword"
+            app:destination="@id/fragmentEditarPassword" />
+    </fragment>
 </navigation>

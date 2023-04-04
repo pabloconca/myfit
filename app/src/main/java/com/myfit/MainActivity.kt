@@ -3,6 +3,8 @@ package com.myfit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.myfit.controladores.AppController
 import com.myfit.view.FragmentExplorar
@@ -10,35 +12,34 @@ import com.myfit.view.FragmentRutina
 import com.myfit.view.FragmentUsuario
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AppController.inicializarRetrofit()
-        var nav = findViewById<BottomNavigationView>(R.id.bottomNav)
-        nav.setOnItemSelectedListener {
-            when (it.itemId) {
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.contenedor) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val navView: BottomNavigationView = findViewById(R.id.bottomNav)
+        navView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
                 R.id.principal -> {
-                    showFragment(FragmentRutina())
+                    navController.navigate(R.id.fragmentRutina)
                     true
                 }
                 R.id.busqueda -> {
-                    showFragment(FragmentExplorar())
+                    navController.navigate(R.id.fragmentExplorar)
                     true
                 }
                 R.id.settings -> {
-                    showFragment(FragmentUsuario())
+                    navController.navigate(R.id.fragmentUsuario)
                     true
                 }
-                else -> {
-                    false
-                }
+                else -> false
             }
         }
     }
-    fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.contenedor, fragment)
-            .commit()
     }
 
-}
+

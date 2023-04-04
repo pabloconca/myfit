@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.myfit.R
 import com.myfit.modelo.Usuario
 
-private const val ELEMENTO_UNO = 1
 class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?, var usuario: Usuario) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener{
     lateinit var listenerClick:View.OnClickListener;
@@ -21,11 +20,13 @@ class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?, va
         when(i){
             0 ->{
                 view =LayoutInflater.from(viewGroup.context).inflate(R.layout.linea_uno_fragment_usuario,viewGroup,false)
+                view.setOnClickListener(this)
                 holder = HolderGrande(view)
             }
 
             1 ->{
                 view =LayoutInflater.from(viewGroup.context).inflate(R.layout.linea_fragment_usuario,viewGroup,false)
+                view.setOnClickListener(this)
                 holder = HolderPeque(view)
 
             }
@@ -44,12 +45,12 @@ class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?, va
         return datos?.size?:0
     }
 
-    fun onClick(listener:View.OnClickListener)
+    fun clickCorto(listener:View.OnClickListener)
     {
         this.listenerClick=listener
     }
     override fun onClick(p0: View?) {
-        listenerClick?.onClick(p0)
+        listenerClick.onClick(p0)
     }
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) 0 else 1
