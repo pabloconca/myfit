@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorRecyclerRutina
 import com.myfit.controladores.RutinaController
+import com.myfit.utils.Utils
+import okhttp3.internal.Util
 
 class FragmentRutina : Fragment() {
     override fun onCreateView(
@@ -27,6 +29,12 @@ class FragmentRutina : Fragment() {
             if (navController.currentDestination?.id == R.id.fragmentRutina)
                 navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina)
             }
+        if(!Utils.estaLogeado){
+            val navController= NavHostFragment.findNavController(this)
+            if (navController.currentDestination?.id == R.id.fragmentRutina)
+                navController.navigate(R.id.action_fragmentRutina_to_dialogInicioSesion)
+        }
+
         //recycler.adapter = adaptador
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)

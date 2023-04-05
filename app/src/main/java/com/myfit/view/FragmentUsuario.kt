@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorRecyclerUsuario
 import com.myfit.modelo.Usuario
+import com.myfit.utils.Utils
 
 class FragmentUsuario : Fragment(){
     lateinit var adaptador : AdaptadorRecyclerUsuario
@@ -24,7 +25,7 @@ class FragmentUsuario : Fragment(){
     ): View? {
         vista=inflater.inflate(R.layout.fragment_usuario,container,false)
         val settingsList = listOf("","Editar contraseña", "Eliminar cuenta", "Cerrar sesión")
-        var usuario = Usuario("1","pablo@pablo","a","pablo ");
+        var usuario = Utils.getUser()
         adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
         recycler = vista.findViewById(R.id.recycler)
         clickManager()
