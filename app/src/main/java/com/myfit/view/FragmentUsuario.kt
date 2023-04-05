@@ -35,7 +35,7 @@ class FragmentUsuario : Fragment(){
         return vista
     }
 
-    fun clickManager(){
+    private fun clickManager(){
         val navController= NavHostFragment.findNavController(this)
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {

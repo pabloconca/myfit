@@ -12,15 +12,14 @@ import com.myfit.view.FragmentRutina
 import com.myfit.view.FragmentUsuario
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AppController.inicializarRetrofit()
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.contenedor) as NavHostFragment
         navController = navHostFragment.navController
-
         val navView: BottomNavigationView = findViewById(R.id.bottomNav)
         navView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -40,6 +39,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    }
+}
 
 

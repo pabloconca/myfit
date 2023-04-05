@@ -19,8 +19,8 @@ class HolderExplorar(v : View) : RecyclerView.ViewHolder(v), View.OnClickListene
     fun bind(rutina: Rutina?){
         if (rutina != null) {
             nombre.text = rutina.nombre
-            propietario.text = rutina.idUsuario.usuario
-            cantidadEjercicios.text = rutina.ejercicioRutinaCollection.count().toString()
+            propietario.text = "Propietario: "+rutina.idUsuario.usuario
+            cantidadEjercicios.text = "Ejercicios: "+rutina.ejercicioRutinaCollection.count().toString()
         }
     }
 

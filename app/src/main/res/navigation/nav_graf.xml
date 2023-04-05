@@ -7,11 +7,19 @@
     <fragment
         android:id="@+id/fragmentEditarPassword"
         android:name="com.myfit.view.FragmentEditarPassword"
-        android:label="FragmentEditarPassword" />
+        android:label="FragmentEditarPassword" >
+        <action
+            android:id="@+id/action_fragmentEditarPassword_to_fragmentUsuario"
+            app:destination="@id/fragmentUsuario" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentExplorar"
         android:name="com.myfit.view.FragmentExplorar"
-        android:label="FragmentExplorar" />
+        android:label="FragmentExplorar" >
+        <action
+            android:id="@+id/action_fragmentExplorar_to_fragmentEditarRutina"
+            app:destination="@id/fragmentEditarRutina" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentRutina"
         android:name="com.myfit.view.FragmentRutina"
@@ -19,6 +27,9 @@
         <action
             android:id="@+id/action_fragmentRutina_to_fragmentCrearRutina"
             app:destination="@id/fragmentCrearRutina" />
+        <action
+            android:id="@+id/action_fragmentRutina_to_fragmentEditarRutina"
+            app:destination="@id/fragmentEditarRutina" />
     </fragment>
     <fragment
         android:id="@+id/fragmentUsuario"
@@ -32,4 +43,12 @@
         android:id="@+id/fragmentCrearRutina"
         android:name="com.myfit.view.FragmentCrearRutina"
         android:label="FragmentCrearRutina" />
+    <fragment
+        android:id="@+id/fragmentInicioSesion"
+        android:name="com.myfit.view.FragmentInicioSesion"
+        android:label="FragmentInicioSesion" />
+    <fragment
+        android:id="@+id/fragmentEditarRutina"
+        android:name="com.myfit.view.FragmentEditarRutina"
+        android:label="FragmentEditarRutina" />
 </navigation>
