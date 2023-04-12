@@ -5,39 +5,63 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorRecyclerRutina
-import com.myfit.controladores.RutinaController
+import com.myfit.controladores.AppController
+import com.myfit.modelo.Rutina
 import com.myfit.utils.Utils
-import okhttp3.internal.Util
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentRutina : Fragment() {
+    lateinit var recycler : RecyclerView
+    private val model:DataViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         var view=inflater.inflate(R.layout.fragment_container_recycler_rutina,container,false)
-        //var adaptador = AdaptadorRecyclerRutina()
-        var recycler = view.findViewById<RecyclerView>(R.id.recycler)
+        recycler = view.findViewById<RecyclerView>(R.id.recycler)
+        if(!Utils.estaLogeado){
+            Utils.mostrarDialogoInicioSesion(parentFragmentManager)
+        }
+        val updateObserver = Observer<Boolean> { it ->
+            if (it) {
+                cargarRutinasDelUsuario()
+            }
+        }
+        model.getTieneQueActualizarRutinas.observe(requireActivity(),updateObserver)
+        if(Utils.estaLogeado){
+            cargarRutinasDelUsuario()
+        }
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
             val navController= NavHostFragment.findNavController(this)
             if (navController.currentDestination?.id == R.id.fragmentRutina)
                 navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina)
-            }
-        if(!Utils.estaLogeado){
-            val navController= NavHostFragment.findNavController(this)
-            if (navController.currentDestination?.id == R.id.fragmentRutina)
-                navController.navigate(R.id.action_fragmentRutina_to_dialogInicioSesion)
         }
 
-        //recycler.adapter = adaptador
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return view
+    }
+    fun cargarRutinasDelUsuario(){
+        var listaRutinas : MutableList<Rutina>?
+        CoroutineScope(Dispatchers.IO).launch {
+            listaRutinas = AppController.findRutinasFromUser(Utils.usuarioActual.id)
+            withContext(Dispatchers.Main){
+                var adaptador = AdaptadorRecyclerRutina(listaRutinas)
+                recycler.adapter = adaptador
+            }
+        }
     }
 }

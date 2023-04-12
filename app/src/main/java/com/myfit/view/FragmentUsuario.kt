@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,8 @@ import com.myfit.utils.Utils
 class FragmentUsuario : Fragment(){
     lateinit var adaptador : AdaptadorRecyclerUsuario
     lateinit var recycler : RecyclerView
+    private val model:DataViewModel by activityViewModels()
+    val settingsList = listOf("","Editar contraseña", "Eliminar cuenta", "Cerrar sesión")
     lateinit var vista : View
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,25 +28,43 @@ class FragmentUsuario : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         vista=inflater.inflate(R.layout.fragment_usuario,container,false)
-        val settingsList = listOf("","Editar contraseña", "Eliminar cuenta", "Cerrar sesión")
         var usuario = Utils.getUser()
         adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
         recycler = vista.findViewById(R.id.recycler)
         clickManager()
-
+        val updateObserver = Observer<Boolean> { it ->
+            if (it) {
+                recargarDatos()
+                clickManager()
+            }
+        }
+        model.getTieneQueActualizarUser.observe(requireActivity(),updateObserver)
         recycler.adapter = adaptador
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return vista
     }
 
+    private fun recargarDatos(){
+        var usuario = Utils.getUser()
+        adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
+        recycler.adapter = adaptador
+        model.setTieneQueActualizarUser(false)
+    }
     private fun clickManager(){
         val navController= NavHostFragment.findNavController(this)
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 var posicion=recycler.getChildAdapterPosition(p0!!)
-                if (navController.currentDestination?.id == R.id.fragmentUsuario)
+                if (posicion == 1 && navController.currentDestination?.id == R.id.fragmentUsuario){
                     navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarPassword)
+                }else if(posicion == 2 && navController.currentDestination?.id == R.id.fragmentUsuario){
+
+                }else if(posicion == 3 && navController.currentDestination?.id == R.id.fragmentUsuario){
+                    var dialogoCerrarSesion = DialogoCerrarSesion()
+                    dialogoCerrarSesion.show(parentFragmentManager,"DialogoCerrarSesion")
+                }
+
             }
 
         })

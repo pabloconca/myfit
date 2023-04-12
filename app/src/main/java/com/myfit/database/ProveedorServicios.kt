@@ -23,6 +23,9 @@ interface ProveedorServicios {
     @GET("rutina")
     @Headers("Accept: application/json", "Content-Type: application/json")
     suspend fun getRutinas(): Response<MutableList<Rutina>>
+    @GET("rutina/usuario/{id}")
+    @Headers("Accept: application/json", "Content-Type: application/json")
+    suspend fun getRutinasFromUser(@Path("id") id : Int) : Response<MutableList<Rutina>>
     @POST("rutina")
     @Headers("Accept: application/json", "Content-Type: application/json")
     suspend fun insertarRutina(@Body rutina: Rutina): Response<RespuestaJSon>

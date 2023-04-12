@@ -47,6 +47,9 @@ object AppController {
         var r : Response<RespuestaJSon> = retrofit.eliminarEjercicio(id)
     }
 
+    suspend fun findRutinasFromUser(id : Int) : MutableList<Rutina>?{
+        return retrofit.getRutinasFromUser(id).body()
+    }
     suspend fun insertarRutina(rutina: Rutina){
         retrofit.insertarRutina(rutina)
     }

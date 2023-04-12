@@ -1,16 +1,18 @@
 package com.myfit.utils
 
+import androidx.fragment.app.FragmentManager
 import com.myfit.modelo.Usuario
+import com.myfit.view.DialogInicioSesion
 import java.security.MessageDigest
 
 object Utils {
     var estaLogeado = false
-    lateinit var usuario:Usuario
+    lateinit var usuarioActual:Usuario
      fun setUser(usuarioNuevo: Usuario){
-        usuario = usuarioNuevo
+        usuarioActual = usuarioNuevo
      }
      fun getUser() : Usuario{
-        return usuario
+        return usuarioActual
      }
      fun compararPass(hashAnterior : String, hashNuevo : String) : Boolean{
         return hashAnterior == hashNuevo
@@ -22,5 +24,9 @@ object Utils {
         return hashedBytes.joinToString("") {
             "%02x".format(it)
         }
+    }
+    fun mostrarDialogoInicioSesion(parentFragmentManager: FragmentManager){
+        val dialogo= DialogInicioSesion()
+        dialogo.show(parentFragmentManager,"DialogoInicioSesion")
     }
 }
