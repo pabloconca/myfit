@@ -30,6 +30,7 @@ class FragmentExplorar : Fragment() {
                 recycler.adapter = adapter
             }
         }
+
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return view

@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 class FragmentRutina : Fragment() {
     lateinit var recycler : RecyclerView
     private val model:DataViewModel by activityViewModels()
+    var listaRutinas : MutableList<Rutina>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,29 +39,46 @@ class FragmentRutina : Fragment() {
         val updateObserver = Observer<Boolean> { it ->
             if (it) {
                 cargarRutinasDelUsuario()
+                model.setTieneQueActualizarRutinas(false)
             }
         }
         model.getTieneQueActualizarRutinas.observe(requireActivity(),updateObserver)
         if(Utils.estaLogeado){
             cargarRutinasDelUsuario()
         }
+
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
             val navController= NavHostFragment.findNavController(this)
             if (navController.currentDestination?.id == R.id.fragmentRutina)
                 navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina)
         }
-
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return view
     }
+    private fun clickManager(adaptador : AdaptadorRecyclerRutina){
+        val navController= NavHostFragment.findNavController(this)
+        adaptador.clickCorto(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var posicion=recycler.getChildAdapterPosition(p0!!)
+                var rutina = listaRutinas?.get(posicion)
+                var bundle = Bundle()
+                bundle.putParcelable("RutinaEdit",rutina)
+                if (rutina != null && navController.currentDestination?.id == R.id.fragmentRutina){
+                    navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina,bundle)
+                }
+            }
+
+        })
+    }
+
     fun cargarRutinasDelUsuario(){
-        var listaRutinas : MutableList<Rutina>?
         CoroutineScope(Dispatchers.IO).launch {
             listaRutinas = AppController.findRutinasFromUser(Utils.usuarioActual.id)
             withContext(Dispatchers.Main){
                 var adaptador = AdaptadorRecyclerRutina(listaRutinas)
                 recycler.adapter = adaptador
+                clickManager(adaptador)
             }
         }
     }

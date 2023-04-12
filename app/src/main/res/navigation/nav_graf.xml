@@ -45,7 +45,11 @@
     <fragment
         android:id="@+id/fragmentCrearRutina"
         android:name="com.myfit.view.FragmentCrearRutina"
-        android:label="FragmentCrearRutina" />
+        android:label="FragmentCrearRutina" >
+        <action
+            android:id="@+id/action_fragmentCrearRutina_to_fragmentRutina"
+            app:destination="@id/fragmentRutina" />
+    </fragment>
     <dialog
         android:id="@+id/dialogInicioSesion"
         android:name="com.myfit.view.DialogInicioSesion"

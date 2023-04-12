@@ -28,7 +28,7 @@ class AdaptadorRecyclerRutina(val datos : MutableList<Rutina>?) : RecyclerView.A
         return datos?.size ?: 0
     }
 
-    fun onClick(listener: View.OnClickListener)
+    fun clickCorto(listener:View.OnClickListener)
     {
         this.listenerClick=listener
     }

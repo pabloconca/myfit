@@ -36,6 +36,7 @@ class FragmentUsuario : Fragment(){
             if (it) {
                 recargarDatos()
                 clickManager()
+                model.setTieneQueActualizarUser(false)
             }
         }
         model.getTieneQueActualizarUser.observe(requireActivity(),updateObserver)
@@ -49,7 +50,6 @@ class FragmentUsuario : Fragment(){
         var usuario = Utils.getUser()
         adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
         recycler.adapter = adaptador
-        model.setTieneQueActualizarUser(false)
     }
     private fun clickManager(){
         val navController= NavHostFragment.findNavController(this)
