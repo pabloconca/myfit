@@ -3,17 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <TextView
+        android:id="@+id/nombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="@color/black"
-        android:id="@+id/nombre"/>
+        android:textSize="30sp" />
+
     <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="#808080"
         android:layout_marginBottom="20dp"
-        android:id="@+id/email"/>
+        android:textColor="#808080"
+        android:textSize="15sp" />
 </LinearLayout>

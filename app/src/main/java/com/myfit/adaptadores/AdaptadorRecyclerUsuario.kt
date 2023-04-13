@@ -63,7 +63,7 @@ class AdaptadorRecyclerUsuario internal constructor(val datos: List<String>?, va
             texto.text = text
             texto.textSize = 20f
             val layoutParams = texto.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.bottomMargin = 15
+            layoutParams.bottomMargin = 35
             texto.layoutParams = layoutParams
         }
         init {
