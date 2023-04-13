@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,7 +52,11 @@ class DialogInicioSesion : DialogFragment() {
                 }
             }
         }
-
+        view.findViewById<TextView>(R.id.textoRegistro).setOnClickListener{
+            var dialogo = DialogoRegistro()
+            dialogo.show(parentFragmentManager,"DialogoRegistro")
+            dismiss()
+        }
         return builder.create()
     }
 

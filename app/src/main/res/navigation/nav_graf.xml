@@ -17,11 +17,8 @@
         android:name="com.myfit.view.FragmentExplorar"
         android:label="FragmentExplorar" >
         <action
-            android:id="@+id/action_fragmentExplorar_to_fragmentCrearRutina"
-            app:destination="@id/fragmentCrearRutina" />
-        <action
-            android:id="@+id/action_fragmentExplorar_to_fragmentVerRutinaExplorar"
-            app:destination="@id/fragmentVerRutinaExplorar" />
+            android:id="@+id/action_fragmentExplorar_to_fragmentCopiarRutina"
+            app:destination="@id/fragmentCopiarRutina" />
     </fragment>
     <fragment
         android:id="@+id/fragmentRutina"
@@ -55,7 +52,11 @@
         android:name="com.myfit.view.DialogInicioSesion"
         android:label="DialogInicioSesion" />
     <fragment
-        android:id="@+id/fragmentVerRutinaExplorar"
-        android:name="com.myfit.view.FragmentVerRutinaExplorar"
-        android:label="FragmentVerRutinaExplorar" />
+        android:id="@+id/fragmentCopiarRutina"
+        android:name="com.myfit.view.FragmentCopiarRutina"
+        android:label="FragmentCopiarRutina" >
+        <action
+            android:id="@+id/action_fragmentCopiarRutina_to_fragmentRutina"
+            app:destination="@id/fragmentRutina" />
+    </fragment>
 </navigation>
