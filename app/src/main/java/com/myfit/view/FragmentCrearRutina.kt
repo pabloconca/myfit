@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -65,6 +66,11 @@ class FragmentCrearRutina : Fragment() {
                 }
             }
         }
+        view.findViewById<Button>(R.id.addEjercicio).setOnClickListener{
+            val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
+            if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+                navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentListaEjercicios)
+        }
 
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
@@ -73,13 +79,13 @@ class FragmentCrearRutina : Fragment() {
     private fun clickManager(){
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                var posicion=recycler.getChildAdapterPosition(p0!!)
+                val posicion=recycler.getChildAdapterPosition(p0!!)
                 var ejercicioRutina = listaEjercicios[posicion]
                 model.setEjercicioRutina(ejercicioRutina)
                 if(ejercicioRutina.ejercicio.tipo == "Cardio"){
 
                 }else{
-                    var dialogo = DialogoEditarEjercicioRutina()
+                    val dialogo = DialogoEditarEjercicioRutina()
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutina")
                     val updateObserver = Observer<EjercicioRutina> { it ->
                         listaEjercicios.remove(ejercicioRutina)

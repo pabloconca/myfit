@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_fragmentCrearRutina_to_fragmentRutina"
             app:destination="@id/fragmentRutina" />
+        <action
+            android:id="@+id/action_fragmentCrearRutina_to_fragmentListaEjercicios"
+            app:destination="@id/fragmentListaEjercicios" />
     </fragment>
     <dialog
         android:id="@+id/dialogInicioSesion"
@@ -59,4 +62,8 @@
             android:id="@+id/action_fragmentCopiarRutina_to_fragmentExplorar"
             app:destination="@id/fragmentExplorar" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentListaEjercicios"
+        android:name="com.myfit.view.FragmentListaEjercicios"
+        android:label="FragmentListaEjercicios" />
 </navigation>
