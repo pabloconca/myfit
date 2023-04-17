@@ -59,7 +59,8 @@ class FragmentUsuario : Fragment(){
                 if (posicion == 1 && navController.currentDestination?.id == R.id.fragmentUsuario){
                     navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarPassword)
                 }else if(posicion == 2 && navController.currentDestination?.id == R.id.fragmentUsuario){
-
+                    var dialogoEliminarUser = DialogoEliminarUsuario()
+                    dialogoEliminarUser.show(parentFragmentManager,"DialogoEliminarUsuario")
                 }else if(posicion == 3 && navController.currentDestination?.id == R.id.fragmentUsuario){
                     var dialogoCerrarSesion = DialogoCerrarSesion()
                     dialogoCerrarSesion.show(parentFragmentManager,"DialogoCerrarSesion")

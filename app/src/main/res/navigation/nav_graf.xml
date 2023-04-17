@@ -56,7 +56,7 @@
         android:name="com.myfit.view.FragmentCopiarRutina"
         android:label="FragmentCopiarRutina" >
         <action
-            android:id="@+id/action_fragmentCopiarRutina_to_fragmentRutina"
-            app:destination="@id/fragmentRutina" />
+            android:id="@+id/action_fragmentCopiarRutina_to_fragmentExplorar"
+            app:destination="@id/fragmentExplorar" />
     </fragment>
 </navigation>

@@ -14,7 +14,8 @@
             android:layout_width="345dp"
             android:layout_height="53dp"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -25,6 +26,11 @@
                 android:hint="Nombre de la rutina..." />
 
         </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addEjercicio"
+            android:text="+"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewEjercicios"
             android:layout_width="match_parent"
