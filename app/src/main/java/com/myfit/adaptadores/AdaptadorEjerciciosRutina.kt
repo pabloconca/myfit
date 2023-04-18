@@ -1,28 +1,27 @@
 package com.myfit.adaptadores
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.myfit.R
-import com.myfit.interfaces.OnImagenListener
+import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.EjercicioRutina
 
 class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) : RecyclerView.Adapter<AdaptadorEjerciciosRutina.ViewHolder>(),
     View.OnClickListener{
     lateinit var listenerClick: View.OnClickListener
-    lateinit var listenerImagen: OnImagenListener
+    lateinit var listenerImagen: OnImagenListenerEjercicioRutina
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.linea_ejercicio, parent, false)
         view.setOnClickListener(this)
         var holder = ViewHolder(view)
-        holder.onImagenListener(object :OnImagenListener{
-            override fun setOnImagenListener(ejer:EjercicioRutina) {
-                listenerImagen.setOnImagenListener(ejer)
+        holder.onImagenListener(object :OnImagenListenerEjercicioRutina{
+            override fun setOnImagenListener(ejercicio:EjercicioRutina) {
+                listenerImagen.setOnImagenListener(ejercicio)
             }
         })
         return holder
@@ -49,11 +48,11 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
     override fun onClick(p0: View?) {
         listenerClick.onClick(p0)
     }
-    fun onImagenListener(interfaz:OnImagenListener){
+    fun onImagenListener(interfaz:OnImagenListenerEjercicioRutina){
         this.listenerImagen = interfaz
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var interfaz:OnImagenListener
+        lateinit var interfaz:OnImagenListenerEjercicioRutina
         var nombre: TextView
         var tipo : TextView
         var cantidad : TextView
@@ -82,7 +81,7 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
                 cantidad.text =textoNormal
             }
         }
-        fun onImagenListener(interfaz:OnImagenListener){
+        fun onImagenListener(interfaz:OnImagenListenerEjercicioRutina){
             this.interfaz = interfaz
         }
     }

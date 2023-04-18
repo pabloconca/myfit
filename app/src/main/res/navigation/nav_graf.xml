@@ -65,5 +65,9 @@
     <fragment
         android:id="@+id/fragmentListaEjercicios"
         android:name="com.myfit.view.FragmentListaEjercicios"
-        android:label="FragmentListaEjercicios" />
+        android:label="FragmentListaEjercicios" >
+        <action
+            android:id="@+id/action_fragmentListaEjercicios_to_fragmentCrearRutina"
+            app:destination="@id/fragmentCrearRutina" />
+    </fragment>
 </navigation>

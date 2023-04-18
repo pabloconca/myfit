@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorEjerciciosRutina
 import com.myfit.controladores.AppController
-import com.myfit.interfaces.OnImagenListener
+import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.EjercicioRutina
 import com.myfit.modelo.Rutina
 import kotlinx.coroutines.CoroutineScope
@@ -28,7 +28,7 @@ class FragmentCrearRutina : Fragment() {
     lateinit var recycler : RecyclerView
     lateinit var listaEjercicios : MutableList<EjercicioRutina>
     private val model:DataViewModel by activityViewModels()
-
+    var listaAdd : MutableList<EjercicioRutina> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +49,22 @@ class FragmentCrearRutina : Fragment() {
             var lista: List<EjercicioRutina>? = null
             adaptador = AdaptadorEjerciciosRutina(lista)
         }
+        if(listaAdd.isNotEmpty()){
+            listaAdd.forEach { ejercicio ->
+                if(!listaEjercicios.contains(ejercicio)) {
+                    listaEjercicios.add(ejercicio)
+                }
+            }
+            listaAdd.clear()
+        }
+
+        val updateObserver = Observer<EjercicioRutina> {
+            if (rutina != null) {
+                it.id = rutina.id
+            }
+            listaAdd.add(it)
+        }
+        model.getEjercicioRutinaAdd.observe(requireActivity(),updateObserver)
 
         clickManager()
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
@@ -67,9 +83,14 @@ class FragmentCrearRutina : Fragment() {
             }
         }
         view.findViewById<Button>(R.id.addEjercicio).setOnClickListener{
-            val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
-            if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
-                navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentListaEjercicios)
+            if (rutina != null) {
+                rutina.ejercicioRutinaCollection = listaEjercicios
+                var bundle = Bundle()
+                bundle.putParcelable("RUTINALISTA",rutina)
+                val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
+                if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+                    navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentListaEjercicios,bundle)
+            }
         }
 
         recycler.layoutManager=
@@ -87,20 +108,23 @@ class FragmentCrearRutina : Fragment() {
                 }else{
                     val dialogo = DialogoEditarEjercicioRutina()
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutina")
-                    val updateObserver = Observer<EjercicioRutina> { it ->
-                        listaEjercicios.remove(ejercicioRutina)
-                        ejercicioRutina = it
-                        listaEjercicios.add(ejercicioRutina)
-                        recargar()
+                    val updateObserver = Observer<EjercicioRutina?> {
+                        if(it != null){
+                            listaEjercicios.remove(ejercicioRutina)
+                            ejercicioRutina = it
+                            listaEjercicios.add(ejercicioRutina)
+                            recargar()
+                        }
+
                     }
-                    model.getEjercicioRutina.observe(requireActivity(),updateObserver)
+                    model.getEjercicioRutinaEditado.observe(requireActivity(),updateObserver)
                 }
 
 
             }
 
         })
-        adaptador.onImagenListener(object : OnImagenListener{
+        adaptador.onImagenListener(object : OnImagenListenerEjercicioRutina{
             override fun setOnImagenListener(ejercicio : EjercicioRutina) {
                 listaEjercicios.remove(ejercicio)
                 recargar()
