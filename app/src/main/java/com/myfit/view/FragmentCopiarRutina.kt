@@ -16,6 +16,7 @@ import com.myfit.R
 import com.myfit.adaptadores.AdaptadorEjerciciosRutina
 import com.myfit.controladores.AppController
 import com.myfit.modelo.EjercicioRutina
+import com.myfit.modelo.EjercicioRutinaPK
 import com.myfit.modelo.Rutina
 import com.myfit.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -50,10 +51,8 @@ class FragmentCopiarRutina : Fragment() {
                     rutina.id = 0
                     rutina.idUsuario = Utils.usuarioActual
                     var lista = rutina.ejercicioRutinaCollection
-                    rutina.ejercicioRutinaCollection = emptyList()
-                    AppController.insertarRutina(rutina)
                     rutina.ejercicioRutinaCollection = lista
-                    AppController.updateRutina(rutina)
+                    AppController.insertarRutina(rutina)
                     val navController= NavHostFragment.findNavController(this@FragmentCopiarRutina)
                     if (navController.currentDestination?.id == R.id.fragmentCopiarRutina)
                         navController.navigate(R.id.action_fragmentCopiarRutina_to_fragmentExplorar)
