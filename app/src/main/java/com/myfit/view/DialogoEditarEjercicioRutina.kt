@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.myfit.R
 import com.myfit.modelo.Ejercicio
 import com.myfit.modelo.EjercicioRutina
+import com.myfit.modelo.EjercicioRutinaPK
 
 class DialogoEditarEjercicioRutina : DialogFragment() {
     private val model:DataViewModel by activityViewModels()
@@ -55,7 +56,7 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
                     ejercicioRutina!!.repeticionesEjercicio = numeroRep.value
                     model.setEjercicioRutinaEditado(ejercicioRutina!!)
                 }else{
-                    ejercicioRutina = EjercicioRutina(0,ejercicio,0.0,
+                    ejercicioRutina = EjercicioRutina(0,ejercicio, EjercicioRutinaPK(ejercicio.id,0),0.0,
                         0.0,numeroRep.value,numeroSeries.value,0)
                     model.setEjercicioRutinaAdd(ejercicioRutina!!)
                     Toast.makeText(requireActivity(),"Ejercicio añadido", Toast.LENGTH_SHORT).show()

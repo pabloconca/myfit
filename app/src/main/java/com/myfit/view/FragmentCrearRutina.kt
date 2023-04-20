@@ -18,6 +18,7 @@ import com.myfit.adaptadores.AdaptadorEjerciciosRutina
 import com.myfit.controladores.AppController
 import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.EjercicioRutina
+import com.myfit.modelo.EjercicioRutinaPK
 import com.myfit.modelo.Rutina
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +53,9 @@ class FragmentCrearRutina : Fragment() {
         if(listaAdd.isNotEmpty()){
             listaAdd.forEach { ejercicio ->
                 if(!listaEjercicios.contains(ejercicio)) {
+                    ejercicio.ejercicioRutinaPK = EjercicioRutinaPK(ejercicio.ejercicio.id,
+                        rutina?.id ?: 0
+                    )
                     listaEjercicios.add(ejercicio)
                 }
             }
