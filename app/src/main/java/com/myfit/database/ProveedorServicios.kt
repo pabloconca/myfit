@@ -1,8 +1,7 @@
 package com.myfit.database
 
-import com.myfit.modelo.Ejercicio
-import com.myfit.modelo.Rutina
-import com.myfit.modelo.Usuario
+import com.google.gson.JsonObject
+import com.myfit.modelo.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -48,4 +47,14 @@ interface ProveedorServicios {
     @DELETE("ejercicio/{id}")
     @Headers("Accept: application/json", "Content-Type: application/json")
     suspend fun eliminarEjercicio(@Path("id") id : Int): Response<RespuestaJSon>
+    @GET("ejercicio/grupos")
+    @Headers("Accept: application/json", "Content-Type: application/json")
+    suspend fun getEjercicioGrupoMuscular() : Response<MutableList<EjercicioGrupoMuscular>>
+    @GET("ejercicio/valoracion/{id}")
+    @Headers("Accept: application/json", "Content-Type: application/json")
+    suspend fun getValoracionFromIdEjercicio(@Path("id") id: Int) :Response<JsonObject>
+
+    @POST("valoracion")
+    @Headers("Accept: application/json", "Content-Type: application/json")
+    suspend fun postValoracionEjercicio(@Body usuarioValoraEjercicio: UsuarioValoraEjercicio) : Response<RespuestaJSon>
 }

@@ -2,9 +2,7 @@ package com.myfit.controladores
 
 import com.myfit.database.ProveedorServicios
 import com.myfit.database.RespuestaJSon
-import com.myfit.modelo.Ejercicio
-import com.myfit.modelo.Rutina
-import com.myfit.modelo.Usuario
+import com.myfit.modelo.*
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,6 +43,15 @@ object AppController {
     }
     suspend fun deleteEjercicio(id: Int){
         var r : Response<RespuestaJSon> = retrofit.eliminarEjercicio(id)
+    }
+    suspend fun getEjercicioGrupoMuscular() : MutableList<EjercicioGrupoMuscular>? {
+        return retrofit.getEjercicioGrupoMuscular().body()
+    }
+    suspend fun getValoracionEjercicio(id: Int): Double? {
+        return retrofit.getValoracionFromIdEjercicio(id).body()?.get("media_valoraciones")?.asDouble
+    }
+    suspend fun postValoracion(usuarioValoraEjercicio: UsuarioValoraEjercicio){
+        retrofit.postValoracionEjercicio(usuarioValoraEjercicio)
     }
 
     suspend fun findRutinasFromUser(id : Int) : MutableList<Rutina>?{

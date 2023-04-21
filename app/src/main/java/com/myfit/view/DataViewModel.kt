@@ -37,4 +37,9 @@ class DataViewModel : ViewModel() {
     fun setEjercicio(item: Ejercicio) {
         ejercicio.value = item
     }
+    private val ejercicioDetalle= MutableLiveData<Ejercicio>()
+    val getEjercicioDetalle: LiveData<Ejercicio> get() = ejercicioDetalle
+    fun setEjercicioDetalle(item: Ejercicio) {
+        ejercicioDetalle.value = item
+    }
 }

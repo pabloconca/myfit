@@ -98,8 +98,10 @@ class FragmentListaEjercicios : Fragment() {
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val posicion=recycler.getChildAdapterPosition(p0!!)
-
-
+                model.setEjercicioDetalle(listaEjercicios[posicion])
+                val navController= NavHostFragment.findNavController(this@FragmentListaEjercicios)
+                if (navController.currentDestination?.id == R.id.fragmentListaEjercicios)
+                    navController.navigate(R.id.action_fragmentListaEjercicios_to_fragmentDetalleEjercicio)
 
             }
 
@@ -119,7 +121,7 @@ class FragmentListaEjercicios : Fragment() {
     }
     private fun volver(){
         val navController= NavHostFragment.findNavController(this@FragmentListaEjercicios)
-        if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+        if (navController.currentDestination?.id == R.id.fragmentListaEjercicios)
             navController.navigate(R.id.action_fragmentListaEjercicios_to_fragmentCrearRutina)
     }
 }
