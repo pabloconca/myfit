@@ -26,16 +26,16 @@ class DialogoRegistro : DialogFragment() {
         isCancelable = false
         builder.setView(view)
         view.findViewById<Button>(R.id.botonRegistro).setOnClickListener{
-            var ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
-            var ilUser =  view.findViewById<TextInputLayout>(R.id.campoNombreUsuarioIl)
+            val ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
+            val ilUser =  view.findViewById<TextInputLayout>(R.id.campoNombreUsuarioIl)
             ilEmail.error = null
             ilUser.error = null
-            var emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
-            var userIntroducido = view.findViewById<EditText>(R.id.campoNombreUsuario).text.toString()
+            val emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
+            val userIntroducido = view.findViewById<EditText>(R.id.campoNombreUsuario).text.toString()
             var passIntroducida = view.findViewById<EditText>(R.id.campoInicioSesionPass).text.toString()
             passIntroducida = Utils.hashPassword(passIntroducida)
             CoroutineScope(Dispatchers.IO).launch {
-                var listaUsuarios = AppController.getUsuarios()
+                val listaUsuarios = AppController.getUsuarios()
                 var isEmailRepetido = false
                 var isUserRepetido = false
                 if (listaUsuarios != null) {
@@ -48,7 +48,7 @@ class DialogoRegistro : DialogFragment() {
                         }
                     }
                     if(!isEmailRepetido && !isUserRepetido){
-                        var user = Usuario(0,emailIntroducido,passIntroducida,userIntroducido)
+                        val user = Usuario(0,emailIntroducido,passIntroducida,userIntroducido)
                         AppController.insertarUsuario(user)
                         Utils.estaLogeado = true
                         Utils.setUser(user)

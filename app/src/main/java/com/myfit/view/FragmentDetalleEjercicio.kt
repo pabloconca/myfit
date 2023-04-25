@@ -1,17 +1,14 @@
 package com.myfit.view
 
 import android.content.Intent
-import android.media.Rating
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -36,7 +33,7 @@ class FragmentDetalleEjercicio : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_detalle_ejercicio,container,false)
-        var valoracion = 0.0
+        var valoracion: Double
         val updateObserver = Observer<Ejercicio> {
             ejercicio = it
             CoroutineScope(Dispatchers.IO).launch {
@@ -47,7 +44,7 @@ class FragmentDetalleEjercicio : Fragment() {
                 }
                 valoracion = AppController.getValoracionEjercicio(ejercicio.id)!!
                 withContext(Dispatchers.Main){
-                    var gruposMusculares = StringBuilder()
+                    val gruposMusculares = StringBuilder()
                     listaGruposMusculares.forEach {
                         gruposMusculares.append(it)
                     }
@@ -61,9 +58,9 @@ class FragmentDetalleEjercicio : Fragment() {
         model.getEjercicioDetalle.observe(requireActivity(),updateObserver)
         view.findViewById<TextView>(R.id.nombreEjercicioDetalle).text = ejercicio.nombre
         view.findViewById<TextView>(R.id.descripcionEjercicioDetalle).text = ejercicio.descripcion
-        var link = view.findViewById<TextView>(R.id.ejemploEjercicioDetalle)
+        val link = view.findViewById<TextView>(R.id.ejemploEjercicioDetalle)
         link.text = "enlace"
-        var video = ejercicio.ejemplo
+        val video = ejercicio.ejemplo
         link.setOnClickListener{
             startActivity(
                 Intent(
@@ -72,10 +69,10 @@ class FragmentDetalleEjercicio : Fragment() {
                 )
             )
         }
-        var ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             CoroutineScope(Dispatchers.IO).launch {
-                var usuarioValoraEjercicio = UsuarioValoraEjercicio(Utils.usuarioActual,ejercicio,rating.toDouble())
+                val usuarioValoraEjercicio = UsuarioValoraEjercicio(Utils.usuarioActual,ejercicio,rating.toDouble())
                 AppController.postValoracion(usuarioValoraEjercicio)
                 valoracion = AppController.getValoracionEjercicio(ejercicio.id)!!
                 withContext(Dispatchers.Main){

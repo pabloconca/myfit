@@ -31,12 +31,12 @@ class FragmentRutina : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view=inflater.inflate(R.layout.fragment_container_recycler_rutina,container,false)
-        recycler = view.findViewById<RecyclerView>(R.id.recycler)
+        val view=inflater.inflate(R.layout.fragment_container_recycler_rutina,container,false)
+        recycler = view.findViewById(R.id.recycler)
         if(!Utils.estaLogeado){
             Utils.mostrarDialogoInicioSesion(parentFragmentManager)
         }
-        val updateObserver = Observer<Boolean> { it ->
+        val updateObserver = Observer<Boolean> {
             if (it) {
                 cargarRutinasDelUsuario()
                 model.setTieneQueActualizarRutinas(false)
@@ -60,9 +60,9 @@ class FragmentRutina : Fragment() {
         val navController= NavHostFragment.findNavController(this)
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                var posicion=recycler.getChildAdapterPosition(p0!!)
-                var rutina = listaRutinas?.get(posicion)
-                var bundle = Bundle()
+                val posicion=recycler.getChildAdapterPosition(p0!!)
+                val rutina = listaRutinas?.get(posicion)
+                val bundle = Bundle()
                 bundle.putParcelable("RutinaEdit",rutina)
                 if (rutina != null && navController.currentDestination?.id == R.id.fragmentRutina){
                     navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina,bundle)
@@ -76,7 +76,7 @@ class FragmentRutina : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             listaRutinas = AppController.findRutinasFromUser(Utils.usuarioActual.id)
             withContext(Dispatchers.Main){
-                var adaptador = AdaptadorRecyclerRutina(listaRutinas)
+                val adaptador = AdaptadorRecyclerRutina(listaRutinas)
                 recycler.adapter = adaptador
                 clickManager(adaptador)
             }

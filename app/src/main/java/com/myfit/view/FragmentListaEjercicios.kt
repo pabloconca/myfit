@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -20,11 +19,9 @@ import com.myfit.R
 import com.myfit.adaptadores.AdaptadorListaEjercicios
 import com.myfit.controladores.AppController
 import com.myfit.interfaces.OnImagenListenerEjercicio
-import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.Ejercicio
 import com.myfit.modelo.EjercicioRutina
 import com.myfit.modelo.Rutina
-import com.myfit.modelo.UsuarioValoraEjercicio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,10 +39,10 @@ class FragmentListaEjercicios : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_lista_ejercicios,container,false)
-        var rutina : Rutina? = arguments?.getParcelable("RUTINALISTA")
+        val rutina : Rutina? = arguments?.getParcelable("RUTINALISTA")
         recycler = view.findViewById(R.id.recyclerListaEjercicios)
         CoroutineScope(Dispatchers.IO).launch {
-            var listaAEliminar = mutableListOf<Ejercicio>()
+            val listaAEliminar = mutableListOf<Ejercicio>()
             listaEjercicios = AppController.getEjercicios()!!
             listaEjercicios.forEach { ejercicio ->
                 rutina?.ejercicioRutinaCollection?.forEach {
@@ -83,10 +80,10 @@ class FragmentListaEjercicios : Fragment() {
         }
         view.findViewById<Chip>(R.id.Valoracion).setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked) {
-                var lista = adaptador.getEjercicios()
+                val lista = adaptador.getEjercicios()
                 if (lista != null) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        var listaValoraciones = mutableListOf<Double>()
+                        val listaValoraciones = mutableListOf<Double>()
                         lista.forEach {
                             val valoracion = AppController.getValoracionEjercicio(it.id)!!
                             listaValoraciones.add(valoracion)

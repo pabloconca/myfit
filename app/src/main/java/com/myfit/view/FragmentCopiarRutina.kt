@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +14,6 @@ import com.myfit.R
 import com.myfit.adaptadores.AdaptadorEjerciciosRutina
 import com.myfit.controladores.AppController
 import com.myfit.modelo.EjercicioRutina
-import com.myfit.modelo.EjercicioRutinaPK
 import com.myfit.modelo.Rutina
 import com.myfit.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -27,16 +24,15 @@ class FragmentCopiarRutina : Fragment() {
     lateinit var adaptador : AdaptadorEjerciciosRutina
     lateinit var recycler : RecyclerView
     lateinit var listaEjercicios : MutableList<EjercicioRutina>
-    private val model:DataViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view=inflater.inflate(R.layout.fragment_copiar_rutina,container,false)
-        var nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
+        val view=inflater.inflate(R.layout.fragment_copiar_rutina,container,false)
+        val nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
         recycler = view.findViewById<RecyclerView>(R.id.recyclerViewEjercicios)
-        var rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
+        val rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
         rutina?.let {
             nombreRutina.setText(it.nombre)
             adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
@@ -50,7 +46,7 @@ class FragmentCopiarRutina : Fragment() {
                 if (rutina != null) {
                     rutina.id = 0
                     rutina.idUsuario = Utils.usuarioActual
-                    var lista = rutina.ejercicioRutinaCollection
+                    val lista = rutina.ejercicioRutinaCollection
                     rutina.ejercicioRutinaCollection = lista
                     AppController.insertarRutina(rutina)
                     val navController= NavHostFragment.findNavController(this@FragmentCopiarRutina)

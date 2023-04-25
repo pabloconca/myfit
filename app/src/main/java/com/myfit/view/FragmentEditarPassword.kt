@@ -16,8 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.Util
-import java.security.MessageDigest
 
 class FragmentEditarPassword : Fragment() {
     override fun onCreateView(
@@ -25,14 +23,14 @@ class FragmentEditarPassword : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view=inflater.inflate(R.layout.fragment_editar_password,container,false)
+        val view=inflater.inflate(R.layout.fragment_editar_password,container,false)
         view.findViewById<Button>(R.id.cambiarPass).setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch {
-                var til = view.findViewById<TextInputLayout>(R.id.contAntiguaTil)
-                var usuario = Utils.getUser()
-                var hashPassAnterior = usuario.password
+                val til = view.findViewById<TextInputLayout>(R.id.contAntiguaTil)
+                val usuario = Utils.getUser()
+                val hashPassAnterior = usuario.password
                 var antiguaPass = view.findViewById<TextInputEditText>(R.id.campoPassAntigua).text.toString()
-                var nuevaPass = view.findViewById<TextInputEditText>(R.id.campoPassNueva).text.toString()
+                val nuevaPass = view.findViewById<TextInputEditText>(R.id.campoPassNueva).text.toString()
                 antiguaPass = Utils.hashPassword(antiguaPass)
                 if(Utils.compararPass(hashPassAnterior, antiguaPass)){
                     usuario.password = Utils.hashPassword(nuevaPass)

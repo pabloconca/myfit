@@ -35,19 +35,19 @@ class FragmentCrearRutina : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view=inflater.inflate(R.layout.fragment_crear_rutina,container,false)
-        var nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
+        val view=inflater.inflate(R.layout.fragment_crear_rutina,container,false)
+        val nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
         recycler = view.findViewById(R.id.recyclerViewEjercicios)
-        var rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
+        val rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
         if(rutina != null){
-            rutina?.let {
+            rutina.let {
                 nombreRutina.setText(it.nombre)
                 adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
                 recycler.adapter = adaptador
             }
             listaEjercicios = adaptador.getEjercicios() as MutableList<EjercicioRutina>
         }else{
-            var lista: List<EjercicioRutina>? = null
+            val lista: List<EjercicioRutina>? = null
             adaptador = AdaptadorEjerciciosRutina(lista)
         }
         if(listaAdd.isNotEmpty()){
@@ -72,7 +72,7 @@ class FragmentCrearRutina : Fragment() {
 
         clickManager()
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
-            var nombreRutinaNueva =
+            val nombreRutinaNueva =
                 view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina).text.toString()
             listaEjercicios = adaptador.getEjercicios() as MutableList<EjercicioRutina>
             CoroutineScope(Dispatchers.Main).launch {
@@ -89,7 +89,7 @@ class FragmentCrearRutina : Fragment() {
         view.findViewById<Button>(R.id.addEjercicio).setOnClickListener{
             if (rutina != null) {
                 rutina.ejercicioRutinaCollection = listaEjercicios
-                var bundle = Bundle()
+                val bundle = Bundle()
                 bundle.putParcelable("RUTINALISTA",rutina)
                 val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
                 if (navController.currentDestination?.id == R.id.fragmentCrearRutina)

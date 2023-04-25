@@ -26,13 +26,13 @@ class DialogInicioSesion : DialogFragment() {
         val builder= MaterialAlertDialogBuilder(requireActivity())
         builder.setView(view)
         view.findViewById<Button>(R.id.botonIniciarSesion).setOnClickListener{
-            var ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
-            var ilPass =  view.findViewById<TextInputLayout>(R.id.campoInicioSesionPassIl)
-            var emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
+            val ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
+            val ilPass =  view.findViewById<TextInputLayout>(R.id.campoInicioSesionPassIl)
+            val emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
             var passIntroducida = view.findViewById<EditText>(R.id.campoInicioSesionPass).text.toString()
             passIntroducida = Utils.hashPassword(passIntroducida)
             CoroutineScope(Dispatchers.IO).launch {
-                var usuarios = AppController.getUsuarios()
+                val usuarios = AppController.getUsuarios()
                 usuarios?.forEach {
                     if (it.email == emailIntroducido && it.password == passIntroducida){
                         Utils.setUser(it)
@@ -53,7 +53,7 @@ class DialogInicioSesion : DialogFragment() {
             }
         }
         view.findViewById<TextView>(R.id.textoRegistro).setOnClickListener{
-            var dialogo = DialogoRegistro()
+            val dialogo = DialogoRegistro()
             dialogo.show(parentFragmentManager,"DialogoRegistro")
             dismiss()
         }

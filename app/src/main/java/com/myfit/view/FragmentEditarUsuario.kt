@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.textfield.TextInputEditText
 import com.myfit.R
 import com.myfit.controladores.AppController
 import com.myfit.utils.Utils

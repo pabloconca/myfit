@@ -1,7 +1,6 @@
 package com.myfit.view
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.NumberPicker
 import android.widget.Toast
@@ -23,17 +22,17 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
         val builder= MaterialAlertDialogBuilder(requireActivity())
         builder.setView(view)
 
-        var numeroRep = view.findViewById<NumberPicker>(R.id.numeroRepeticiones)
+        val numeroRep = view.findViewById<NumberPicker>(R.id.numeroRepeticiones)
 
         numeroRep.minValue = 0
         numeroRep.maxValue = 200
-        numeroRep.wrapSelectorWheel = true;
+        numeroRep.wrapSelectorWheel = true
 
 
-        var numeroSeries = view.findViewById<NumberPicker>(R.id.numeroSeries)
+        val numeroSeries = view.findViewById<NumberPicker>(R.id.numeroSeries)
         numeroSeries.minValue = 0
         numeroSeries.maxValue = 200
-        numeroSeries.wrapSelectorWheel = true;
+        numeroSeries.wrapSelectorWheel = true
         val updateObserver = Observer<EjercicioRutina?> {
             if(it != null){
                 ejercicioRutina = it
@@ -49,21 +48,24 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
             ejercicio = it
         }
         model.getEjercicio.observe(requireActivity(),updateObserverEjercicio)
-        builder.setPositiveButton("Aceptar",
-            DialogInterface.OnClickListener{ dialogo, id->
-                if(ejercicioRutina != null){
-                    ejercicioRutina!!.seriesEjercicio = numeroSeries.value
-                    ejercicioRutina!!.repeticionesEjercicio = numeroRep.value
-                    model.setEjercicioRutinaEditado(ejercicioRutina!!)
-                }else{
-                    ejercicioRutina = EjercicioRutina(0,ejercicio, EjercicioRutinaPK(ejercicio.id,0),0.0,
-                        0.0,numeroRep.value,numeroSeries.value,0)
-                    model.setEjercicioRutinaAdd(ejercicioRutina!!)
-                    Toast.makeText(requireActivity(),"Ejercicio añadido", Toast.LENGTH_SHORT).show()
+        builder.setPositiveButton("Aceptar"
+        ) { dialogo, _ ->
+            if (ejercicioRutina != null) {
+                ejercicioRutina!!.seriesEjercicio = numeroSeries.value
+                ejercicioRutina!!.repeticionesEjercicio = numeroRep.value
+                model.setEjercicioRutinaEditado(ejercicioRutina!!)
+            } else {
+                ejercicioRutina = EjercicioRutina(
+                    0, ejercicio, EjercicioRutinaPK(ejercicio.id, 0), 0.0,
+                    0.0, numeroRep.value, numeroSeries.value, 0
+                )
+                model.setEjercicioRutinaAdd(ejercicioRutina!!)
+                Toast.makeText(requireActivity(), "Ejercicio añadido", Toast.LENGTH_SHORT).show()
 
-                }
-                dialogo.cancel()})
-            .setNegativeButton("Cancelar",DialogInterface.OnClickListener{ dialogo, id->dialogo.dismiss()})
+            }
+            dialogo.cancel()
+        }
+            .setNegativeButton("Cancelar") { dialogo, _ -> dialogo.dismiss() }
 
         return builder.create()
     }
