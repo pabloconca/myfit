@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -52,6 +53,8 @@ class FragmentDetalleEjercicio : Fragment() {
                     }
                     view.findViewById<TextView>(R.id.grupoEjercicioDetalle).text = gruposMusculares.toString()
                     view.findViewById<TextView>(R.id.valoracion).text = valoracion.toString()
+                    view.findViewById<RatingBar>(R.id.ratingBar).rating = valoracion.toFloat()
+
                 }
             }
         }
@@ -77,7 +80,7 @@ class FragmentDetalleEjercicio : Fragment() {
                 valoracion = AppController.getValoracionEjercicio(ejercicio.id)!!
                 withContext(Dispatchers.Main){
                     view.findViewById<TextView>(R.id.valoracion).text = valoracion.toString()
-
+                    Toast.makeText(requireContext(),"Valoración añadida correctamente",Toast.LENGTH_SHORT).show()
                 }
             }
         }

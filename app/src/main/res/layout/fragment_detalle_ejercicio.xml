@@ -9,6 +9,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="30dp"
             android:id="@+id/nombreEjercicioDetalle"/>
         <TextView
             android:layout_width="wrap_content"
@@ -26,6 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/grupoEjercicioDetalle"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valoración"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/valoracion"/>
+
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,9 +45,5 @@
             android:id="@+id/ratingBar"
             android:numStars="5"
             android:stepSize="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/valoracion"/>
     </LinearLayout>
 </RelativeLayout>

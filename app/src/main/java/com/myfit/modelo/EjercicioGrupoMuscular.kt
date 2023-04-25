@@ -1,4 +1,8 @@
 package com.myfit.modelo
 
-class EjercicioGrupoMuscular(var idEjercicio:Int,var nombreGrupoMuscular:String) {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+class EjercicioGrupoMuscular(var idEjercicio:Int,var nombreGrupoMuscular:String) : Parcelable {
 }
