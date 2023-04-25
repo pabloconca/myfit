@@ -10,8 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AppController {
     lateinit var retrofit: ProveedorServicios
     fun inicializarRetrofit(){
-        val url = "http://10.0.2.2:8080/myfit/content/"
-        //val url = "http://myfit.eastus.cloudapp.azure.com:8080/myfit/content/"
+        val url = "http://myfit.eastus.cloudapp.azure.com:8080/MyFitApi/content/"
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
