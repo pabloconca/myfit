@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <EditText
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Buscar"/>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:singleLine="false"
+        app:singleSelection="true"
+        style="@style/Widget.MaterialComponents.ChipGroup">
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Calistenia"
+            android:id="@+id/Calistenia"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Musculación"
+            android:id="@+id/Musculacion"/>
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cardio"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/Cardio"/>
+    </com.google.android.material.chip.ChipGroup>
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valoración"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:id="@+id/Valoracion"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerListaEjercicios"
         android:layout_width="match_parent"

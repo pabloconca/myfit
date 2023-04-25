@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorListaEjercicios
 import com.myfit.controladores.AppController
@@ -22,6 +24,7 @@ import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.Ejercicio
 import com.myfit.modelo.EjercicioRutina
 import com.myfit.modelo.Rutina
+import com.myfit.modelo.UsuarioValoraEjercicio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,6 +63,47 @@ class FragmentListaEjercicios : Fragment() {
                 clickManager()
             }
         }
+        view.findViewById<ChipGroup>(R.id.chipGroup).setOnCheckedStateChangeListener { group, checkedIds ->
+
+            checkedIds.forEach {
+                val position = group.indexOfChild(view.findViewById<Chip>(it))
+                //TODO metodo para no repetir codigo
+                when(position){
+                    0 -> {
+                        filtradoTipos("Calistenia")
+                    }
+                    1 -> {
+                        filtradoTipos("Musculacion")
+                    }
+                    2 -> {
+                        filtradoTipos("Cardio")
+                    }
+                }
+            }
+        }
+        view.findViewById<Chip>(R.id.Valoracion).setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked) {
+                var lista = adaptador.getEjercicios()
+                if (lista != null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        var listaValoraciones = mutableListOf<Double>()
+                        lista.forEach {
+                            val valoracion = AppController.getValoracionEjercicio(it.id)!!
+                            listaValoraciones.add(valoracion)
+                        }
+                        val listaOrdenada = lista.sortedByDescending { ejercicio ->
+                            listaValoraciones[lista.indexOf(ejercicio)]
+                        }
+                        withContext(Dispatchers.Main){
+                            adaptador = AdaptadorListaEjercicios(listaOrdenada)
+                            recycler.adapter = adaptador
+                        }
+                    }
+                }
+            }else{
+                recargar()
+            }
+        }
         val updateObserver = Observer<EjercicioRutina> {
             listaEjercicios.remove(it.ejercicio)
             recargar()
@@ -89,6 +133,11 @@ class FragmentListaEjercicios : Fragment() {
         recycler.layoutManager=
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return view
+    }
+    private fun filtradoTipos(tipo : String){
+        val listaNueva = listaEjercicios.filter { it.tipo == tipo }
+        adaptador = AdaptadorListaEjercicios(listaNueva)
+        recycler.adapter = adaptador
     }
     private fun recargar(){
         adaptador = AdaptadorListaEjercicios(listaEjercicios)
