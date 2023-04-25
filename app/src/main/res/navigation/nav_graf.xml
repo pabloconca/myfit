@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_fragmentUsuario_to_fragmentEditarPassword"
             app:destination="@id/fragmentEditarPassword" />
+        <action
+            android:id="@+id/action_fragmentUsuario_to_fragmentEditarUsuario"
+            app:destination="@id/fragmentEditarUsuario" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCrearRutina"
@@ -77,4 +80,12 @@
         android:id="@+id/fragmentDetalleEjercicio"
         android:name="com.myfit.view.FragmentDetalleEjercicio"
         android:label="FragmentDetalleEjercicio" />
+    <fragment
+        android:id="@+id/fragmentEditarUsuario"
+        android:name="com.myfit.view.FragmentEditarUsuario"
+        android:label="FragmentEditarUsuario" >
+        <action
+            android:id="@+id/action_fragmentEditarUsuario_to_fragmentUsuario"
+            app:destination="@id/fragmentUsuario" />
+    </fragment>
 </navigation>

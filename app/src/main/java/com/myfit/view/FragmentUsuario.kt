@@ -56,7 +56,9 @@ class FragmentUsuario : Fragment(){
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 var posicion=recycler.getChildAdapterPosition(p0!!)
-                if (posicion == 1 && navController.currentDestination?.id == R.id.fragmentUsuario){
+                if(posicion == 0 && navController.currentDestination?.id == R.id.fragmentUsuario){
+                    navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarUsuario)
+                }else if (posicion == 1 && navController.currentDestination?.id == R.id.fragmentUsuario){
                     navController.navigate(R.id.action_fragmentUsuario_to_fragmentEditarPassword)
                 }else if(posicion == 2 && navController.currentDestination?.id == R.id.fragmentUsuario){
                     var dialogoEliminarUser = DialogoEliminarUsuario()
