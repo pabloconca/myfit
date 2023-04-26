@@ -27,10 +27,15 @@ class DataViewModel : ViewModel() {
     fun setEjercicioRutinaEditado(item: EjercicioRutina?) {
         ejercicioRutinaEditado.value = item
     }
-    private val ejercicioRutinaAdd= MutableLiveData<EjercicioRutina>()
-    val getEjercicioRutinaAdd: LiveData<EjercicioRutina> get() = ejercicioRutinaAdd
-    fun setEjercicioRutinaAdd(item: EjercicioRutina) {
+    private val ejercicioRutinaAdd= MutableLiveData<EjercicioRutina?>()
+    val getEjercicioRutinaAdd: MutableLiveData<EjercicioRutina?> get() = ejercicioRutinaAdd
+    fun setEjercicioRutinaAdd(item: EjercicioRutina?) {
         ejercicioRutinaAdd.value = item
+    }
+    private val ejercicioRutinaBorrarLista= MutableLiveData<EjercicioRutina?>()
+    val getEjercicioRutinaBorrarLista: MutableLiveData<EjercicioRutina?> get() = ejercicioRutinaBorrarLista
+    fun setEjercicioRutinaBorrarLista(item: EjercicioRutina?) {
+        ejercicioRutinaBorrarLista.value = item
     }
     private val ejercicio= MutableLiveData<Ejercicio>()
     val getEjercicio: LiveData<Ejercicio> get() = ejercicio

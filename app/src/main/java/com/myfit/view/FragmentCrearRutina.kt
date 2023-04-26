@@ -62,11 +62,13 @@ class FragmentCrearRutina : Fragment() {
             listaAdd.clear()
         }
 
-        val updateObserver = Observer<EjercicioRutina> {
-            if (rutina != null) {
+        val updateObserver = Observer<EjercicioRutina?> {
+            if (rutina != null && it != null) {
                 it.id = rutina.id
+                listaAdd.add(it)
+                model.setEjercicioRutinaAdd(null)
             }
-            listaAdd.add(it)
+
         }
         model.getEjercicioRutinaAdd.observe(requireActivity(),updateObserver)
 

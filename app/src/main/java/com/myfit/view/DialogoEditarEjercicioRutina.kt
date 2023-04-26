@@ -59,7 +59,8 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
                     0, ejercicio, EjercicioRutinaPK(ejercicio.id, 0), 0.0,
                     0.0, numeroRep.value, numeroSeries.value, 0
                 )
-                model.setEjercicioRutinaAdd(ejercicioRutina!!)
+                model.setEjercicioRutinaAdd(ejercicioRutina)
+                model.setEjercicioRutinaBorrarLista(ejercicioRutina)
                 Toast.makeText(requireActivity(), "Ejercicio añadido", Toast.LENGTH_SHORT).show()
 
             }

@@ -96,11 +96,11 @@ class FragmentListaEjercicios : Fragment() {
                 recargar()
             }
         }
-        val updateObserver = Observer<EjercicioRutina> {
+        val updateObserver = Observer<EjercicioRutina?> {
             listaEjercicios.remove(it.ejercicio)
             recargar()
         }
-        model.getEjercicioRutinaAdd.observe(requireActivity(),updateObserver)
+        model.getEjercicioRutinaBorrarLista.observe(requireActivity(),updateObserver)
 
         recargar()
         view.findViewById<EditText>(R.id.et_search).addTextChangedListener(object : TextWatcher {
