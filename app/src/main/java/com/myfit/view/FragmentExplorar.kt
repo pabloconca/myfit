@@ -12,6 +12,7 @@ import com.myfit.R
 import com.myfit.adaptadores.AdaptadorRecyclerExplorar
 import com.myfit.controladores.AppController
 import com.myfit.modelo.Rutina
+import com.myfit.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,17 @@ class FragmentExplorar : Fragment() {
         recycler = view.findViewById(R.id.recycler)
         CoroutineScope(Dispatchers.IO).launch {
             val rutinasList = AppController.getRutinas()
+            val rutinasUsuario = AppController.findRutinasFromUser(Utils.usuarioActual.id)
+            var i = 0
+            while (i < (rutinasList?.size ?: 0)) {
+                val rutinaActual = rutinasList?.get(i)
+                if (rutinasUsuario?.any { it.id == rutinaActual?.id } == true) {
+                    rutinasList?.removeAt(i)
+                } else {
+                    i++
+                }
+            }
+
             withContext(Dispatchers.Main){
                 val adapter = AdaptadorRecyclerExplorar(rutinasList)
                 recycler.adapter = adapter
