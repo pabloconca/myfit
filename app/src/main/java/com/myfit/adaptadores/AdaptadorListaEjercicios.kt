@@ -19,7 +19,7 @@ class AdaptadorListaEjercicios(private val ejercicios: List<Ejercicio>?) : Recyc
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.linea_ejercicio_lista, parent, false)
         view.setOnClickListener(this)
-        var holder = ViewHolder(view)
+        val holder = ViewHolder(view)
 
         holder.onImagenListener(object :OnImagenListenerEjercicio{
             override fun setOnImagenListener(ejercicio:Ejercicio) {
@@ -40,9 +40,6 @@ class AdaptadorListaEjercicios(private val ejercicios: List<Ejercicio>?) : Recyc
         return ejercicios?.size ?: 0
     }
 
-    fun getEjercicios(): List<Ejercicio>? {
-        return ejercicios
-    }
     fun clickCorto(listener: View.OnClickListener)
     {
         this.listenerClick=listener

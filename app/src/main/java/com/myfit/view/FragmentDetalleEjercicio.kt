@@ -77,7 +77,7 @@ class FragmentDetalleEjercicio : Fragment() {
                 valoracion = AppController.getValoracionEjercicio(ejercicio.id)!!
                 withContext(Dispatchers.Main){
                     view.findViewById<TextView>(R.id.valoracion).text = valoracion.toString()
-                    Toast.makeText(requireContext(),"Valoración añadida correctamente",Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireActivity(),"Valoración añadida correctamente",Toast.LENGTH_SHORT).show()
                 }
             }
         }

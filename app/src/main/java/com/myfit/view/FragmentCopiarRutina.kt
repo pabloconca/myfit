@@ -31,13 +31,13 @@ class FragmentCopiarRutina : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_copiar_rutina,container,false)
         val nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
-        recycler = view.findViewById<RecyclerView>(R.id.recyclerViewEjercicios)
+        recycler = view.findViewById(R.id.recyclerViewEjercicios)
         val rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
         rutina?.let {
             nombreRutina.setText(it.nombre)
             adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
             recycler.adapter = adaptador
-            listaEjercicios = adaptador.getEjercicios() as MutableList<EjercicioRutina>
+            listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
 
         }
         clickManager()

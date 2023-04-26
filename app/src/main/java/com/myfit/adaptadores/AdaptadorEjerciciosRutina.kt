@@ -18,7 +18,7 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.linea_ejercicio, parent, false)
         view.setOnClickListener(this)
-        var holder = ViewHolder(view)
+        val holder = ViewHolder(view)
         holder.onImagenListener(object :OnImagenListenerEjercicioRutina{
             override fun setOnImagenListener(ejercicio:EjercicioRutina) {
                 listenerImagen.setOnImagenListener(ejercicio)
@@ -38,9 +38,6 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
         return ejercicios?.size ?: 0
     }
 
-    fun getEjercicios(): List<EjercicioRutina>? {
-        return ejercicios
-    }
     fun clickCorto(listener:View.OnClickListener)
     {
         this.listenerClick=listener
@@ -71,9 +68,9 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
             ejercicio = ejercicioRutina
             nombre.text = ejercicioRutina.ejercicio.nombre
             tipo.text = ejercicioRutina.ejercicio.tipo
-            var textoCardio = "Minutos : ${ejercicioRutina.minutos}\n" +
+            val textoCardio = "Minutos : ${ejercicioRutina.minutos}\n" +
                     "Kilometros : ${ejercicioRutina.kilometrosRecorridos}"
-            var textoNormal = "Series : ${ejercicioRutina.seriesEjercicio}\n" +
+            val textoNormal = "Series : ${ejercicioRutina.seriesEjercicio}\n" +
                     "Repeticiones : ${ejercicioRutina.repeticionesEjercicio}"
             if(tipo.text == "Cardio"){
                 cantidad.text = textoCardio

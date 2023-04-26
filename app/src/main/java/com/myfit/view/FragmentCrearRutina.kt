@@ -45,7 +45,7 @@ class FragmentCrearRutina : Fragment() {
                 adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
                 recycler.adapter = adaptador
             }
-            listaEjercicios = adaptador.getEjercicios() as MutableList<EjercicioRutina>
+            listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
         }else{
             val lista: List<EjercicioRutina>? = null
             adaptador = AdaptadorEjerciciosRutina(lista)
@@ -70,11 +70,13 @@ class FragmentCrearRutina : Fragment() {
         }
         model.getEjercicioRutinaAdd.observe(requireActivity(),updateObserver)
 
-        clickManager()
+        recargar()
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
             val nombreRutinaNueva =
                 view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina).text.toString()
-            listaEjercicios = adaptador.getEjercicios() as MutableList<EjercicioRutina>
+            if (rutina != null) {
+                listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
+            }
             CoroutineScope(Dispatchers.Main).launch {
                 if (rutina != null) {
                     rutina.nombre = nombreRutinaNueva
@@ -108,7 +110,17 @@ class FragmentCrearRutina : Fragment() {
                 var ejercicioRutina = listaEjercicios[posicion]
                 model.setEjercicioRutina(ejercicioRutina)
                 if(ejercicioRutina.ejercicio.tipo == "Cardio"){
+                    val dialogo = DialogoEditarEjercicioRutinaCardio()
+                    dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutinaCardio")
+                    val updateObserver = Observer<EjercicioRutina?> {
+                        if(it != null){
+                            listaEjercicios.remove(ejercicioRutina)
+                            ejercicioRutina = it
+                            listaEjercicios.add(ejercicioRutina)
+                        }
 
+                    }
+                    model.getEjercicioRutinaEditado.observe(requireActivity(),updateObserver)
                 }else{
                     val dialogo = DialogoEditarEjercicioRutina()
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutina")
@@ -117,7 +129,6 @@ class FragmentCrearRutina : Fragment() {
                             listaEjercicios.remove(ejercicioRutina)
                             ejercicioRutina = it
                             listaEjercicios.add(ejercicioRutina)
-                            recargar()
                         }
 
                     }
@@ -137,6 +148,7 @@ class FragmentCrearRutina : Fragment() {
     }
     private fun recargar(){
         adaptador = AdaptadorEjerciciosRutina(listaEjercicios)
+        clickManager()
         recycler.adapter = adaptador
     }
 }

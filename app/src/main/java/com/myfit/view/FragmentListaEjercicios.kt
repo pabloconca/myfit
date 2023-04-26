@@ -57,14 +57,12 @@ class FragmentListaEjercicios : Fragment() {
             }
             withContext(Dispatchers.Main){
                 recargar()
-                clickManager()
             }
         }
         view.findViewById<ChipGroup>(R.id.chipGroup).setOnCheckedStateChangeListener { group, checkedIds ->
 
             checkedIds.forEach {
                 val position = group.indexOfChild(view.findViewById<Chip>(it))
-                //TODO metodo para no repetir codigo
                 when(position){
                     0 -> {
                         filtradoTipos("Calistenia")
@@ -80,21 +78,18 @@ class FragmentListaEjercicios : Fragment() {
         }
         view.findViewById<Chip>(R.id.Valoracion).setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked) {
-                val lista = adaptador.getEjercicios()
-                if (lista != null) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val listaValoraciones = mutableListOf<Double>()
-                        lista.forEach {
-                            val valoracion = AppController.getValoracionEjercicio(it.id)!!
-                            listaValoraciones.add(valoracion)
-                        }
-                        val listaOrdenada = lista.sortedByDescending { ejercicio ->
-                            listaValoraciones[lista.indexOf(ejercicio)]
-                        }
-                        withContext(Dispatchers.Main){
-                            adaptador = AdaptadorListaEjercicios(listaOrdenada)
-                            recycler.adapter = adaptador
-                        }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val listaValoraciones = mutableListOf<Double>()
+                    listaEjercicios.forEach {
+                        val valoracion = AppController.getValoracionEjercicio(it.id)!!
+                        listaValoraciones.add(valoracion)
+                    }
+                    val listaOrdenada = listaEjercicios.sortedByDescending { ejercicio ->
+                        listaValoraciones[listaEjercicios.indexOf(ejercicio)]
+                    }
+                    withContext(Dispatchers.Main){
+                        adaptador = AdaptadorListaEjercicios(listaOrdenada)
+                        recycler.adapter = adaptador
                     }
                 }
             }else{
@@ -107,7 +102,7 @@ class FragmentListaEjercicios : Fragment() {
         }
         model.getEjercicioRutinaAdd.observe(requireActivity(),updateObserver)
 
-        clickManager()
+        recargar()
         view.findViewById<EditText>(R.id.et_search).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -138,6 +133,7 @@ class FragmentListaEjercicios : Fragment() {
     }
     private fun recargar(){
         adaptador = AdaptadorListaEjercicios(listaEjercicios)
+        clickManager()
         recycler.adapter = adaptador
     }
     private fun clickManager(){
@@ -155,7 +151,9 @@ class FragmentListaEjercicios : Fragment() {
         adaptador.onImagenListener(object : OnImagenListenerEjercicio {
             override fun setOnImagenListener(ejercicio : Ejercicio) {
                 if(ejercicio.tipo == "Cardio"){
-
+                    model.setEjercicio(ejercicio)
+                    val dialogo = DialogoEditarEjercicioRutinaCardio()
+                    dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutinaCardio")
                 }else{
                     model.setEjercicio(ejercicio)
                     val dialogo = DialogoEditarEjercicioRutina()
