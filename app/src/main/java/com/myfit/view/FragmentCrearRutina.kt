@@ -20,6 +20,7 @@ import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.EjercicioRutina
 import com.myfit.modelo.EjercicioRutinaPK
 import com.myfit.modelo.Rutina
+import com.myfit.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,9 +28,10 @@ import kotlinx.coroutines.launch
 class FragmentCrearRutina : Fragment() {
     lateinit var adaptador : AdaptadorEjerciciosRutina
     lateinit var recycler : RecyclerView
-    lateinit var listaEjercicios : MutableList<EjercicioRutina>
+    var listaEjercicios = mutableListOf<EjercicioRutina>()
     private val model:DataViewModel by activityViewModels()
     var listaAdd : MutableList<EjercicioRutina> = mutableListOf()
+    var rutina = Rutina(0,Utils.usuarioActual,"",listaEjercicios)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,23 +40,21 @@ class FragmentCrearRutina : Fragment() {
         val view=inflater.inflate(R.layout.fragment_crear_rutina,container,false)
         val nombreRutina = view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina)
         recycler = view.findViewById(R.id.recyclerViewEjercicios)
-        val rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
-        if(rutina != null){
-            rutina.let {
-                nombreRutina.setText(it.nombre)
-                adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
-                recycler.adapter = adaptador
-            }
-            listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
-        }else{
-            val lista: List<EjercicioRutina>? = null
-            adaptador = AdaptadorEjerciciosRutina(lista)
+        val rutinaEdit : Rutina? = arguments?.getParcelable("RutinaEdit")
+        if(rutinaEdit != null){
+            rutina = rutinaEdit
         }
+        rutina.let {
+            nombreRutina.setText(it.nombre)
+            adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
+            recycler.adapter = adaptador
+        }
+        listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
         if(listaAdd.isNotEmpty()){
             listaAdd.forEach { ejercicio ->
                 if(!listaEjercicios.contains(ejercicio)) {
                     ejercicio.ejercicioRutinaPK = EjercicioRutinaPK(ejercicio.ejercicio.id,
-                        rutina?.id ?: 0
+                        rutina.id ?: 0
                     )
                     listaEjercicios.add(ejercicio)
                 }
@@ -63,7 +63,7 @@ class FragmentCrearRutina : Fragment() {
         }
 
         val updateObserver = Observer<EjercicioRutina?> {
-            if (rutina != null && it != null) {
+            if (it != null) {
                 it.id = rutina.id
                 listaAdd.add(it)
                 model.setEjercicioRutinaAdd(null)
@@ -76,29 +76,27 @@ class FragmentCrearRutina : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
             val nombreRutinaNueva =
                 view.findViewById<TextInputEditText>(R.id.nombreNuevaRutina).text.toString()
-            if (rutina != null) {
-                listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
-            }
+            listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
             CoroutineScope(Dispatchers.Main).launch {
-                if (rutina != null) {
-                    rutina.nombre = nombreRutinaNueva
-                    rutina.ejercicioRutinaCollection = listaEjercicios
+                rutina.nombre = nombreRutinaNueva
+                rutina.ejercicioRutinaCollection = listaEjercicios
+                if(rutinaEdit != null){
                     AppController.updateRutina(rutina)
-                    val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
-                    if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
-                        navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentRutina)
+                }else{
+                    AppController.insertarRutina(rutina)
                 }
+                val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
+                if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+                    navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentRutina)
             }
         }
         view.findViewById<Button>(R.id.addEjercicio).setOnClickListener{
-            if (rutina != null) {
-                rutina.ejercicioRutinaCollection = listaEjercicios
-                val bundle = Bundle()
-                bundle.putParcelable("RUTINALISTA",rutina)
-                val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
-                if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
-                    navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentListaEjercicios,bundle)
-            }
+            rutina.ejercicioRutinaCollection = listaEjercicios
+            val bundle = Bundle()
+            bundle.putParcelable("RUTINALISTA",rutina)
+            val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
+            if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+                navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentListaEjercicios,bundle)
         }
 
         recycler.layoutManager=

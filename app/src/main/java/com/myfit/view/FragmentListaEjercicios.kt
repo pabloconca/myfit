@@ -130,9 +130,15 @@ class FragmentListaEjercicios : Fragment() {
         val listaNueva = listaEjercicios.filter { it.tipo == tipo }
         adaptador = AdaptadorListaEjercicios(listaNueva)
         recycler.adapter = adaptador
+        recargar(listaNueva)
     }
     private fun recargar(){
         adaptador = AdaptadorListaEjercicios(listaEjercicios)
+        clickManager()
+        recycler.adapter = adaptador
+    }
+    private fun recargar(lista : List<Ejercicio>){
+        adaptador = AdaptadorListaEjercicios(lista)
         clickManager()
         recycler.adapter = adaptador
     }
@@ -162,10 +168,5 @@ class FragmentListaEjercicios : Fragment() {
 
             }
         })
-    }
-    private fun volver(){
-        val navController= NavHostFragment.findNavController(this@FragmentListaEjercicios)
-        if (navController.currentDestination?.id == R.id.fragmentListaEjercicios)
-            navController.navigate(R.id.action_fragmentListaEjercicios_to_fragmentCrearRutina)
     }
 }

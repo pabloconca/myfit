@@ -46,7 +46,7 @@ class FragmentCopiarRutina : Fragment() {
                 if (rutina != null) {
                     rutina.id = 0
                     rutina.idUsuario = Utils.usuarioActual
-                    val lista = rutina.ejercicioRutinaCollection
+                    val lista = rutina.ejercicioRutinaCollection//TODO quitar estas dos lineas
                     rutina.ejercicioRutinaCollection = lista
                     AppController.insertarRutina(rutina)
                     val navController= NavHostFragment.findNavController(this@FragmentCopiarRutina)
