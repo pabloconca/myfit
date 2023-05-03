@@ -10,12 +10,15 @@ import com.myfit.holder.HolderRutina
 import com.myfit.modelo.Rutina
 
 class AdaptadorRecyclerRutina(val datos : MutableList<Rutina>?) : RecyclerView.Adapter<HolderRutina>(),
-    View.OnClickListener {
-    lateinit var listenerClick: View.OnClickListener;
+    View.OnClickListener,View.OnLongClickListener {
+    lateinit var listenerClick: View.OnClickListener
+    lateinit var listenerLargo: View.OnLongClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderRutina {
         val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.linea_recycler_rutina, parent, false)
         itemView.setOnClickListener(this)
+        itemView.setOnLongClickListener(this)
         return HolderRutina(itemView)
     }
 
@@ -24,6 +27,14 @@ class AdaptadorRecyclerRutina(val datos : MutableList<Rutina>?) : RecyclerView.A
         holder.bind(element)
     }
 
+    override fun onLongClick(p0: View?): Boolean {
+        listenerLargo.onLongClick(p0)
+        return true
+    }
+
+    fun clickLargo(listener: View.OnLongClickListener) {
+        this.listenerLargo = listener
+    }
     override fun getItemCount(): Int {
         return datos?.size ?: 0
     }

@@ -28,7 +28,6 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
         numeroRep.maxValue = 200
         numeroRep.wrapSelectorWheel = true
 
-
         val numeroSeries = view.findViewById<NumberPicker>(R.id.numeroSeries)
         numeroSeries.minValue = 0
         numeroSeries.maxValue = 200

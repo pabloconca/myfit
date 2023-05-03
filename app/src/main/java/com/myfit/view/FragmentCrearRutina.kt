@@ -90,7 +90,7 @@ class FragmentCrearRutina : Fragment() {
                     navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentRutina)
             }
         }
-        view.findViewById<Button>(R.id.addEjercicio).setOnClickListener{
+        view.findViewById<FloatingActionButton>(R.id.addEjercicio).setOnClickListener{
             rutina.ejercicioRutinaCollection = listaEjercicios
             val bundle = Bundle()
             bundle.putParcelable("RUTINALISTA",rutina)

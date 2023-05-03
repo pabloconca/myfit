@@ -1,5 +1,6 @@
 package com.myfit.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorRecyclerRutina
@@ -67,6 +69,25 @@ class FragmentRutina : Fragment() {
                 if (rutina != null && navController.currentDestination?.id == R.id.fragmentRutina){
                     navController.navigate(R.id.action_fragmentRutina_to_fragmentCrearRutina,bundle)
                 }
+            }
+
+        })
+        adaptador.clickLargo(object : View.OnLongClickListener{
+            override fun onLongClick(p0: View?): Boolean {
+                val builder= MaterialAlertDialogBuilder(requireActivity())
+                builder.setMessage("¿Eliminar rutina?")
+                    .setNegativeButton("CANCELAR",
+                        DialogInterface.OnClickListener{ dialogo, id->dialogo.cancel()})
+                    .setPositiveButton("ELIMINAR",
+                        DialogInterface.OnClickListener{ dialogo, id->
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var posicion=recycler.getChildAdapterPosition(p0!!)
+                                AppController.deleteRutina(listaRutinas!![posicion].id)
+                                cargarRutinasDelUsuario()
+                            }
+                        })
+                builder.create().show()
+                return true
             }
 
         })

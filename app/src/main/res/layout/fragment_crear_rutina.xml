@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#479A8E"
         android:id="@+id/contenedor">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -20,23 +21,35 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:background="#479A8E"
                 android:id="@+id/nombreNuevaRutina"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Nombre de la rutina..." />
 
         </com.google.android.material.textfield.TextInputLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addEjercicio"
-            android:text="+"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:id="@+id/constRecycler">
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="30dp"
             android:id="@+id/recyclerViewEjercicios"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addEjercicio"
+        app:layout_anchorGravity="center|top"
+        app:layout_anchor="@+id/constRecycler"
+        android:src="@drawable/plus_icon"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
