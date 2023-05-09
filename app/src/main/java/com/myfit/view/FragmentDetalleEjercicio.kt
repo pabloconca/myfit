@@ -17,10 +17,14 @@ import com.myfit.controladores.AppController
 import com.myfit.modelo.Ejercicio
 import com.myfit.modelo.UsuarioValoraEjercicio
 import com.myfit.utils.Utils
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.regex.Pattern
 
 
 class FragmentDetalleEjercicio : Fragment() {
@@ -59,17 +63,15 @@ class FragmentDetalleEjercicio : Fragment() {
         model.getEjercicioDetalle.observe(requireActivity(),updateObserver)
         view.findViewById<TextView>(R.id.nombreEjercicioDetalle).text = ejercicio.nombre
         view.findViewById<TextView>(R.id.descripcionEjercicioDetalle).text = ejercicio.descripcion
-        val link = view.findViewById<TextView>(R.id.ejemploEjercicioDetalle)
-        link.text = "enlace"
-        val video = ejercicio.ejemplo
-        link.setOnClickListener{
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(video)
-                )
-            )
-        }
+        val link = view.findViewById<YouTubePlayerView>(R.id.ejemploEjercicioDetalle)
+        link.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                super.onReady(youTubePlayer)
+                videoIdFromUrl(ejercicio.ejemplo)?.let {
+                    youTubePlayer.loadVideo(it,0f)
+                }
+            }
+        })
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             CoroutineScope(Dispatchers.IO).launch {
@@ -86,5 +88,15 @@ class FragmentDetalleEjercicio : Fragment() {
 
 
         return view
+    }
+    private fun videoIdFromUrl(url: String): String? {
+        val pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*"
+        val compiledPattern = Pattern.compile(pattern)
+        val matcher = compiledPattern.matcher(url)
+        return if (matcher.find()) {
+            matcher.group()
+        } else {
+            null
+        }
     }
 }

@@ -24,12 +24,12 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
 
         val numeroRep = view.findViewById<NumberPicker>(R.id.numeroRepeticiones)
 
-        numeroRep.minValue = 0
+        numeroRep.minValue = 1
         numeroRep.maxValue = 200
         numeroRep.wrapSelectorWheel = true
 
         val numeroSeries = view.findViewById<NumberPicker>(R.id.numeroSeries)
-        numeroSeries.minValue = 0
+        numeroSeries.minValue = 1
         numeroSeries.maxValue = 200
         numeroSeries.wrapSelectorWheel = true
         val updateObserver = Observer<EjercicioRutina?> {
@@ -37,7 +37,6 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
                 ejercicioRutina = it
                 numeroRep.value = it.repeticionesEjercicio
                 numeroSeries.value = it.seriesEjercicio
-                model.setEjercicioRutina(null)
             }
 
         }
@@ -47,12 +46,14 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
             ejercicio = it
         }
         model.getEjercicio.observe(requireActivity(),updateObserverEjercicio)
+
         builder.setPositiveButton("Aceptar"
         ) { dialogo, _ ->
             if (ejercicioRutina != null) {
                 ejercicioRutina!!.seriesEjercicio = numeroSeries.value
                 ejercicioRutina!!.repeticionesEjercicio = numeroRep.value
                 model.setEjercicioRutinaEditado(ejercicioRutina!!)
+                model.setEjercicioRutina(null)
             } else {
                 ejercicioRutina = EjercicioRutina(
                     0, ejercicio, EjercicioRutinaPK(ejercicio.id, 0), 0.0,
@@ -61,6 +62,7 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
                 model.setEjercicioRutinaAdd(ejercicioRutina)
                 model.setEjercicioRutinaBorrarLista(ejercicioRutina)
                 Toast.makeText(requireActivity(), "Ejercicio añadido", Toast.LENGTH_SHORT).show()
+                model.setEjercicioRutina(null)
 
             }
             dialogo.cancel()
