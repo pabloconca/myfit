@@ -117,6 +117,7 @@ class FragmentCrearRutina : Fragment() {
                             listaEjercicios.remove(ejercicioRutina)
                             ejercicioRutina = it
                             listaEjercicios.add(ejercicioRutina)
+                            recargar()
                         }
 
                     }
@@ -129,6 +130,7 @@ class FragmentCrearRutina : Fragment() {
                             listaEjercicios.remove(ejercicioRutina)
                             ejercicioRutina = it
                             listaEjercicios.add(ejercicioRutina)
+                            recargar()
                         }
 
                     }

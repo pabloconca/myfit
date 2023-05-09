@@ -1,9 +1,12 @@
 package com.myfit.view
 
 import android.app.Dialog
+import android.media.Image
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -25,6 +28,11 @@ class DialogoRegistro : DialogFragment() {
         val builder= MaterialAlertDialogBuilder(requireActivity())
         isCancelable = false
         builder.setView(view)
+        view.findViewById<TextView>(R.id.textoRegistro).setOnClickListener{
+            val dialogo = DialogInicioSesion()
+            dialogo.show(parentFragmentManager,"DialogInicioSesion")
+            dismiss()
+        }
         view.findViewById<Button>(R.id.botonRegistro).setOnClickListener{
             val ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
             val ilUser =  view.findViewById<TextInputLayout>(R.id.campoNombreUsuarioIl)

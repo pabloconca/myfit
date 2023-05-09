@@ -46,8 +46,9 @@ class FragmentDetalleEjercicio : Fragment() {
                 withContext(Dispatchers.Main){
                     val gruposMusculares = StringBuilder()
                     listaGruposMusculares.forEach {
-                        gruposMusculares.append(it)
+                        gruposMusculares.append(it+",")
                     }
+                    gruposMusculares.deleteCharAt(gruposMusculares.length -1)
                     view.findViewById<TextView>(R.id.grupoEjercicioDetalle).text = gruposMusculares.toString()
                     view.findViewById<TextView>(R.id.valoracion).text = valoracion.toString()
                     view.findViewById<RatingBar>(R.id.ratingBar).rating = valoracion.toFloat()
