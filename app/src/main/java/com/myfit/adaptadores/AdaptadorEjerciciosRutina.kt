@@ -11,13 +11,15 @@ import com.myfit.interfaces.OnImagenListenerEjercicioRutina
 import com.myfit.modelo.EjercicioRutina
 
 class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) : RecyclerView.Adapter<AdaptadorEjerciciosRutina.ViewHolder>(),
-    View.OnClickListener{
+    View.OnClickListener,View.OnLongClickListener{
     lateinit var listenerClick: View.OnClickListener
     lateinit var listenerImagen: OnImagenListenerEjercicioRutina
+    lateinit var listenerLargo: View.OnLongClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.linea_ejercicio, parent, false)
         view.setOnClickListener(this)
+        view.setOnLongClickListener(this)
         val holder = ViewHolder(view)
         holder.onImagenListener(object :OnImagenListenerEjercicioRutina{
             override fun setOnImagenListener(ejercicio:EjercicioRutina) {
@@ -26,7 +28,14 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
         })
         return holder
     }
+    override fun onLongClick(p0: View?): Boolean {
+        listenerLargo.onLongClick(p0)
+        return true
+    }
 
+    fun clickLargo(listener: View.OnLongClickListener) {
+        this.listenerLargo = listener
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ejercicio = ejercicios?.get(position)
         if (ejercicio != null) {
@@ -82,5 +91,7 @@ class AdaptadorEjerciciosRutina(private val ejercicios: List<EjercicioRutina>?) 
             this.interfaz = interfaz
         }
     }
+
+
 
 }

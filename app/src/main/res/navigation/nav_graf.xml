@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_fragmentCrearRutina_to_fragmentListaEjercicios"
             app:destination="@id/fragmentListaEjercicios" />
+        <action
+            android:id="@+id/action_fragmentCrearRutina_to_fragmentDetalleEjercicio"
+            app:destination="@id/fragmentDetalleEjercicio" />
     </fragment>
     <dialog
         android:id="@+id/dialogInicioSesion"
@@ -64,6 +67,9 @@
         <action
             android:id="@+id/action_fragmentCopiarRutina_to_fragmentExplorar"
             app:destination="@id/fragmentExplorar" />
+        <action
+            android:id="@+id/action_fragmentCopiarRutina_to_fragmentDetalleEjercicio"
+            app:destination="@id/fragmentDetalleEjercicio" />
     </fragment>
     <fragment
         android:id="@+id/fragmentListaEjercicios"

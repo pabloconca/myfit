@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 class FragmentCopiarRutina : Fragment() {
     lateinit var adaptador : AdaptadorEjerciciosRutina
     lateinit var recycler : RecyclerView
+    private val model:DataViewModel by activityViewModels()
     lateinit var listaEjercicios : MutableList<EjercicioRutina>
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +69,17 @@ class FragmentCopiarRutina : Fragment() {
 
 
             }
+        })
+        adaptador.clickLargo(object : View.OnLongClickListener{
+            override fun onLongClick(p0: View?): Boolean {
+                val posicion=recycler.getChildAdapterPosition(p0!!)
+                model.setEjercicioDetalle(listaEjercicios[posicion].ejercicio)
+                val navController= NavHostFragment.findNavController(this@FragmentCopiarRutina)
+                if (navController.currentDestination?.id == R.id.fragmentCopiarRutina)
+                    navController.navigate(R.id.action_fragmentCopiarRutina_to_fragmentDetalleEjercicio)
+                return true
+            }
+
         })
     }
 }

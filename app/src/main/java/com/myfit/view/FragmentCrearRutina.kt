@@ -1,5 +1,6 @@
 package com.myfit.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.myfit.R
@@ -140,6 +142,17 @@ class FragmentCrearRutina : Fragment() {
                 }
 
 
+            }
+
+        })
+        adaptador.clickLargo(object : View.OnLongClickListener{
+            override fun onLongClick(p0: View?): Boolean {
+                val posicion=recycler.getChildAdapterPosition(p0!!)
+                model.setEjercicioDetalle(listaEjercicios[posicion].ejercicio)
+                val navController= NavHostFragment.findNavController(this@FragmentCrearRutina)
+                if (navController.currentDestination?.id == R.id.fragmentCrearRutina)
+                    navController.navigate(R.id.action_fragmentCrearRutina_to_fragmentDetalleEjercicio)
+                return true
             }
 
         })
