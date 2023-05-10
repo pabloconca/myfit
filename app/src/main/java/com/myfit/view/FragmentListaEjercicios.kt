@@ -31,6 +31,9 @@ class FragmentListaEjercicios : Fragment() {
     var adaptador : AdaptadorListaEjercicios = AdaptadorListaEjercicios(mutableListOf())
     lateinit var recycler : RecyclerView
     var listaEjercicios: MutableList<Ejercicio> = mutableListOf()
+    var listaFiltrada: MutableList<Ejercicio> = mutableListOf()
+    var estaFiltrado = false
+    lateinit var vista: View
     private val model:DataViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -38,7 +41,8 @@ class FragmentListaEjercicios : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.fragment_lista_ejercicios,container,false)
+        var view=inflater.inflate(R.layout.fragment_lista_ejercicios,container,false)
+        vista = view
         val rutina : Rutina? = arguments?.getParcelable("RUTINALISTA")
         recycler = view.findViewById(R.id.recyclerListaEjercicios)
         CoroutineScope(Dispatchers.IO).launch {
@@ -60,40 +64,27 @@ class FragmentListaEjercicios : Fragment() {
             }
         }
         view.findViewById<ChipGroup>(R.id.chipGroup).setOnCheckedStateChangeListener { group, checkedIds ->
-
-            checkedIds.forEach {
-                val position = group.indexOfChild(view.findViewById<Chip>(it))
-                when(position){
-                    0 -> {
-                        filtradoTipos("Calistenia")
-                    }
-                    1 -> {
-                        filtradoTipos("Musculacion")
-                    }
-                    2 -> {
-                        filtradoTipos("Cardio")
-                    }
-                }
-            }
-        }
-        view.findViewById<Chip>(R.id.Valoracion).setOnCheckedChangeListener { compoundButton, isChecked ->
-            if (isChecked) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val listaValoraciones = mutableListOf<Double>()
-                    listaEjercicios.forEach {
-                        val valoracion = AppController.getValoracionEjercicio(it.id)!!
-                        listaValoraciones.add(valoracion)
-                    }
-                    val listaOrdenada = listaEjercicios.sortedByDescending { ejercicio ->
-                        listaValoraciones[listaEjercicios.indexOf(ejercicio)]
-                    }
-                    withContext(Dispatchers.Main){
-                        adaptador = AdaptadorListaEjercicios(listaOrdenada)
-                        recycler.adapter = adaptador
-                    }
-                }
-            }else{
+            if (checkedIds.size == 0) {
+                estaFiltrado = false
                 recargar()
+            } else {
+                checkedIds.forEach {
+                    val position = group.indexOfChild(view.findViewById<Chip>(it))
+                    when (position) {
+                        0 -> {
+                            filtradoTipos("Calistenia")
+                        }
+                        1 -> {
+                            filtradoTipos("Musculacion")
+                        }
+                        2 -> {
+                            filtradoTipos("Cardio")
+                        }
+                        3 -> {
+                            filtrarValoracion()
+                        }
+                    }
+                }
             }
         }
         val updateObserver = Observer<EjercicioRutina?> {
@@ -126,11 +117,28 @@ class FragmentListaEjercicios : Fragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         return view
     }
+    private fun filtrarValoracion(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val listaValoraciones = mutableListOf<Double>()
+            listaEjercicios.forEach {
+                val valoracion = AppController.getValoracionEjercicio(it.id)!!
+                listaValoraciones.add(valoracion)
+            }
+            listaFiltrada = listaEjercicios.sortedByDescending { ejercicio ->
+                listaValoraciones[listaEjercicios.indexOf(ejercicio)]
+            } as MutableList<Ejercicio>
+            withContext(Dispatchers.Main){
+                recargar(listaFiltrada)
+            }
+        }
+        estaFiltrado = true
+    }
     private fun filtradoTipos(tipo : String){
-        val listaNueva = listaEjercicios.filter { it.tipo == tipo }
-        adaptador = AdaptadorListaEjercicios(listaNueva)
+        listaFiltrada = listaEjercicios.filter { it.tipo == tipo } as MutableList<Ejercicio>
+        adaptador = AdaptadorListaEjercicios(listaFiltrada)
         recycler.adapter = adaptador
-        recargar(listaNueva)
+        recargar(listaFiltrada)
+        estaFiltrado = true
     }
     private fun recargar(){
         adaptador = AdaptadorListaEjercicios(listaEjercicios)
@@ -146,10 +154,14 @@ class FragmentListaEjercicios : Fragment() {
         adaptador.clickCorto(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val posicion=recycler.getChildAdapterPosition(p0!!)
-                model.setEjercicioDetalle(listaEjercicios[posicion])
+                if(estaFiltrado)
+                    model.setEjercicioDetalle(listaFiltrada[posicion])
+                else
+                    model.setEjercicioDetalle(listaEjercicios[posicion])
                 val navController= NavHostFragment.findNavController(this@FragmentListaEjercicios)
                 if (navController.currentDestination?.id == R.id.fragmentListaEjercicios)
                     navController.navigate(R.id.action_fragmentListaEjercicios_to_fragmentDetalleEjercicio)
+                vista.findViewById<ChipGroup>(R.id.chipGroup).clearCheck()
 
             }
 

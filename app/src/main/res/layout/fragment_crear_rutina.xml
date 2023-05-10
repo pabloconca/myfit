@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#5D93B5"
+        android:background="#D3D3D3"
         android:id="@+id/contenedor">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:background="#5D93B5"
+                android:background="#D3D3D3"
                 android:id="@+id/nombreNuevaRutina"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -50,6 +50,7 @@
         android:id="@+id/addEjercicio"
         app:layout_anchorGravity="center|top"
         app:layout_anchor="@+id/constRecycler"
+        app:backgroundTint="#50A6EF"
         android:src="@drawable/plus_icon"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

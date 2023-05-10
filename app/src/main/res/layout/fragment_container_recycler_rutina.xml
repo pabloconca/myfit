@@ -20,7 +20,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="5dp"
         app:backgroundTint="#50A6EF"
         app:fabSize="normal"

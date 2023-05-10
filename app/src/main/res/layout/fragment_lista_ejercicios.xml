@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="60dp"
+    android:padding="16dp"
     android:orientation="vertical">
 
     <EditText
@@ -15,34 +16,44 @@
         android:id="@+id/chipGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:singleLine="false"
+        app:singleLine="true"
         app:singleSelection="true"
         style="@style/Widget.MaterialComponents.ChipGroup">
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
+            app:chipBackgroundColor="#C6C6C6"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_height="wrap_content"
             android:text="Calistenia"
             android:id="@+id/Calistenia"/>
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
+            app:chipBackgroundColor="#C6C6C6"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_height="wrap_content"
             android:text="Musculación"
             android:id="@+id/Musculacion"/>
         <com.google.android.material.chip.Chip
+            app:chipBackgroundColor="#C6C6C6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cardio"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:id="@+id/Cardio"/>
+        <com.google.android.material.chip.Chip
+            app:chipBackgroundColor="#C6C6C6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valoración"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/Valoracion"/>
     </com.google.android.material.chip.ChipGroup>
-    <com.google.android.material.chip.Chip
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Valoración"
-        style="@style/Widget.MaterialComponents.Chip.Choice"
-        android:id="@+id/Valoracion"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCC"
+        android:layout_marginBottom="8dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerListaEjercicios"
         android:layout_width="match_parent"
