@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ImageView
         android:layout_marginTop="20dp"
         android:layout_width="100dp"
@@ -11,63 +12,65 @@
         android:layout_marginStart="115dp"
         android:src="@drawable/app_icon"
         />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/campoInicioSesionMailIl"
         android:layout_width="215dp"
-        android:layout_height="53dp"
-        app:boxBackgroundColor="@color/white"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:boxBackgroundColor="@color/white">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/campoInicioSesionMail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Correo electrónico" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/campoInicioSesionPassIl"
-        app:boxBackgroundColor="@color/white"
         android:layout_width="215dp"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:boxBackgroundColor="@color/white">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/campoInicioSesionPass"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="Contraseña" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <Button
+        android:id="@+id/botonIniciarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="90dp"
-        android:id="@+id/botonIniciarSesion"
-        android:text="Iniciar sesion"/>
+        android:text="Iniciar sesión" />
+
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Eres nuevo en MyFit? "/>
+            android:text="¿Eres nuevo en MyFit? " />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/textoRegistro"
-            android:textColor="@android:color/holo_blue_dark"
-            android:text="Crea una cuenta"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea una cuenta"
+            android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
 </LinearLayout>

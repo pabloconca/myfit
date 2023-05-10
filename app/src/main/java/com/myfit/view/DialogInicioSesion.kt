@@ -1,6 +1,8 @@
 package com.myfit.view
 
 import android.app.Dialog
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -25,33 +27,42 @@ class DialogInicioSesion : DialogFragment() {
         isCancelable = false
         val builder= MaterialAlertDialogBuilder(requireActivity())
         builder.setView(view)
-        view.findViewById<Button>(R.id.botonIniciarSesion).setOnClickListener{
+        view.findViewById<Button>(R.id.botonIniciarSesion).setOnClickListener {
             val ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
-            val ilPass =  view.findViewById<TextInputLayout>(R.id.campoInicioSesionPassIl)
+            val ilPass = view.findViewById<TextInputLayout>(R.id.campoInicioSesionPassIl)
             val emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
             var passIntroducida = view.findViewById<EditText>(R.id.campoInicioSesionPass).text.toString()
             passIntroducida = Utils.hashPassword(passIntroducida)
+
             CoroutineScope(Dispatchers.IO).launch {
                 val usuarios = AppController.getUsuarios()
+                var credentialsValid = false
+
                 usuarios?.forEach {
-                    if (it.email == emailIntroducido && it.password == passIntroducida){
+                    if (it.email == emailIntroducido && it.password == passIntroducida) {
                         Utils.setUser(it)
                         Utils.estaLogeado = true
-                        withContext(Dispatchers.Main){
+                        credentialsValid = true
+                        withContext(Dispatchers.Main) {
                             model.setTieneQueActualizarRutinas(true)
                             model.setTieneQueActualizarUser(true)
-
                             dismiss()
                         }
                     }
                 }
-                withContext(Dispatchers.Main){
-                    ilEmail.error = "La contraseña introducida no coincide"
-                    ilPass.error = "La contraseña introducida no coincide"
 
+                withContext(Dispatchers.Main) {
+                    if (!credentialsValid) {
+                        ilEmail.error = "El email o la contraseña introducidos son incorrectos"
+                        ilEmail.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+
+                        ilPass.error = "El email o la contraseña introducidos son incorrectos"
+                        ilPass.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                    }
                 }
             }
         }
+
         view.findViewById<TextView>(R.id.textoRegistro).setOnClickListener{
             val dialogo = DialogoRegistro()
             dialogo.show(parentFragmentManager,"DialogoRegistro")

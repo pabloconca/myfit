@@ -14,34 +14,30 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/campoInicioSesionMailIl"
         android:layout_width="215dp"
-        android:layout_height="53dp"
-        app:boxBackgroundColor="@color/white"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:boxBackgroundColor="@color/white">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/campoInicioSesionMail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Correo electrónico" />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/campoNombreUsuarioIl"
         android:layout_width="215dp"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         app:boxBackgroundColor="@color/white"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/campoNombreUsuario"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Nombre de usuario" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -51,14 +47,12 @@
         android:layout_width="215dp"
         android:layout_height="53dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/campoInicioSesionPass"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="Contraseña" />
 

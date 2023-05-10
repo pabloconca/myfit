@@ -33,46 +33,57 @@ class DialogoRegistro : DialogFragment() {
             dialogo.show(parentFragmentManager,"DialogInicioSesion")
             dismiss()
         }
-        view.findViewById<Button>(R.id.botonRegistro).setOnClickListener{
+        view.findViewById<Button>(R.id.botonRegistro).setOnClickListener {
             val ilEmail = view.findViewById<TextInputLayout>(R.id.campoInicioSesionMailIl)
-            val ilUser =  view.findViewById<TextInputLayout>(R.id.campoNombreUsuarioIl)
+            val ilUser = view.findViewById<TextInputLayout>(R.id.campoNombreUsuarioIl)
+            val ilPass = view.findViewById<TextInputLayout>(R.id.campoInicioSesionPassIl)
             ilEmail.error = null
             ilUser.error = null
-            val emailIntroducido = view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
-            val userIntroducido = view.findViewById<EditText>(R.id.campoNombreUsuario).text.toString()
-            var passIntroducida = view.findViewById<EditText>(R.id.campoInicioSesionPass).text.toString()
-            passIntroducida = Utils.hashPassword(passIntroducida)
-            CoroutineScope(Dispatchers.IO).launch {
-                val listaUsuarios = AppController.getUsuarios()
-                var isEmailRepetido = false
-                var isUserRepetido = false
-                if (listaUsuarios != null) {
-                    listaUsuarios.forEach {
-                        if(it.email == emailIntroducido ){
-                            isEmailRepetido = true
-                        }
-                        if( it.usuario == userIntroducido){
-                            isUserRepetido = true
-                        }
-                    }
-                    if(!isEmailRepetido && !isUserRepetido){
-                        val user = Usuario(0,emailIntroducido,passIntroducida,userIntroducido)
-                        AppController.insertarUsuario(user)
-                        Utils.estaLogeado = true
-                        Utils.setUser(user)
-                        withContext(Dispatchers.Main){
-                            model.setTieneQueActualizarRutinas(true)
-                            model.setTieneQueActualizarUser(true)
-
-                            dismiss()
-                        }
-                    }else{
-                        withContext(Dispatchers.Main) {
-                            if(isEmailRepetido){
-                                ilEmail.error = "El email introducido existe"
+            val emailIntroducido =
+                view.findViewById<EditText>(R.id.campoInicioSesionMail).text.toString()
+            val userIntroducido =
+                view.findViewById<EditText>(R.id.campoNombreUsuario).text.toString()
+            var passIntroducida =
+                view.findViewById<EditText>(R.id.campoInicioSesionPass).text.toString()
+            if (emailIntroducido == "" || userIntroducido == "" || passIntroducida == "") {
+                ilEmail.error = "Se deben de rellenar todos los campos"
+                ilUser.error = "Se deben de rellenar todos los campos"
+                ilPass.error = "Se deben de rellenar todos los campos"
+            } else {
+                passIntroducida = Utils.hashPassword(passIntroducida)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val listaUsuarios = AppController.getUsuarios()
+                    var isEmailRepetido = false
+                    var isUserRepetido = false
+                    if (listaUsuarios != null) {
+                        listaUsuarios.forEach {
+                            if (it.email == emailIntroducido) {
+                                isEmailRepetido = true
                             }
-                            if(isUserRepetido){
-                                ilUser.error = "El usuario introducido existe"
+                            if (it.usuario == userIntroducido) {
+                                isUserRepetido = true
+                            }
+                        }
+                        if (!isEmailRepetido && !isUserRepetido) {
+                            val user =
+                                Usuario(0, emailIntroducido, passIntroducida, userIntroducido)
+                            AppController.insertarUsuario(user)
+                            Utils.estaLogeado = true
+                            Utils.setUser(user)
+                            withContext(Dispatchers.Main) {
+                                model.setTieneQueActualizarRutinas(true)
+                                model.setTieneQueActualizarUser(true)
+
+                                dismiss()
+                            }
+                        } else {
+                            withContext(Dispatchers.Main) {
+                                if (isEmailRepetido) {
+                                    ilEmail.error = "El email introducido existe"
+                                }
+                                if (isUserRepetido) {
+                                    ilUser.error = "El usuario introducido existe"
+                                }
                             }
                         }
                     }
