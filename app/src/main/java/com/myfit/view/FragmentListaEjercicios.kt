@@ -171,10 +171,16 @@ class FragmentListaEjercicios : Fragment() {
                 if(ejercicio.tipo == "Cardio"){
                     model.setEjercicio(ejercicio)
                     val dialogo = DialogoEditarEjercicioRutinaCardio()
+                    val bundle = Bundle()
+                    bundle.putBoolean("EDITAR",false)
+                    dialogo.arguments = bundle
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutinaCardio")
                 }else{
                     model.setEjercicio(ejercicio)
                     val dialogo = DialogoEditarEjercicioRutina()
+                    val bundle = Bundle()
+                    bundle.putBoolean("EDITAR",false)
+                    dialogo.arguments = bundle
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutina")
                 }
 

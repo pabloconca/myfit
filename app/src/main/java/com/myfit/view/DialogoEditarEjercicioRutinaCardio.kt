@@ -21,35 +21,46 @@ class DialogoEditarEjercicioRutinaCardio : DialogFragment() {
         val view = layoutInflater.inflate(R.layout.dialogo_editar_ejercicio_rutina_cardio,null)
         val builder= MaterialAlertDialogBuilder(requireActivity())
         builder.setView(view)
+        var esEditar = this.arguments?.getBoolean("EDITAR")
         val numeroKm = view.findViewById<EditText>(R.id.numeroKilometros)
         val numeroMins = view.findViewById<EditText>(R.id.numeroMinutos)
         val updateObserver = Observer<EjercicioRutina?> {
             if(it != null){
                 ejercicioRutina = it
-                numeroKm.setText(it.kilometrosRecorridos.toString())
-                numeroMins.setText(it.minutos.toString())
-                model.setEjercicioRutina(null)
             }
 
         }
         model.getEjercicioRutina.observe(requireActivity(),updateObserver)
-
+        if (esEditar == true) {
+            numeroKm.setText(ejercicioRutina?.kilometrosRecorridos.toString())
+            numeroMins.setText(ejercicioRutina?.minutos.toString())
+        }
         val updateObserverEjercicio = Observer<Ejercicio> {
             ejercicio = it
         }
         model.getEjercicio.observe(requireActivity(),updateObserverEjercicio)
         builder.setPositiveButton("Aceptar"
         ) { dialogo, _ ->
-            if (ejercicioRutina != null) {
-                ejercicioRutina!!.kilometrosRecorridos = numeroMins.text.toString().toDouble()
-                ejercicioRutina!!.minutos = numeroKm.text.toString().toDouble()
+            if (esEditar == true) {
+                ejercicioRutina!!.kilometrosRecorridos = numeroKm.text.toString().toDouble()
+                ejercicioRutina!!.minutos = numeroMins.text.toString().toDouble()
                 model.setEjercicioRutinaEditado(ejercicioRutina!!)
             } else {
+                if(numeroMins.text.isEmpty()){
+                    numeroMins.setText("0.0")
+                }
+
+                if(numeroKm.text.isEmpty()){
+                    numeroKm.setText("0.0")
+                }
+
                 ejercicioRutina = EjercicioRutina(
                     0, ejercicio, EjercicioRutinaPK(ejercicio.id, 0), numeroKm.text.toString().toDouble(),
                     numeroMins.text.toString().toDouble(), 0, 0, 0
                 )
                 model.setEjercicioRutinaAdd(ejercicioRutina!!)
+                model.setEjercicioRutinaBorrarLista(ejercicioRutina)
+
                 Toast.makeText(requireActivity(), "Ejercicio añadido", Toast.LENGTH_SHORT).show()
 
             }

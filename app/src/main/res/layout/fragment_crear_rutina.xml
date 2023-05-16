@@ -40,7 +40,7 @@
             android:id="@+id/recyclerViewEjercicios"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"/>
+            android:layout_marginBottom="70dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

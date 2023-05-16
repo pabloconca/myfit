@@ -18,10 +18,10 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
     var ejercicioRutina : EjercicioRutina? = null
     lateinit var ejercicio : Ejercicio
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = layoutInflater.inflate(R.layout.dialogo_editar_ejercicio_rutina,null)
-        val builder= MaterialAlertDialogBuilder(requireActivity())
+        val view = layoutInflater.inflate(R.layout.dialogo_editar_ejercicio_rutina, null)
+        val builder = MaterialAlertDialogBuilder(requireActivity())
         builder.setView(view)
-
+        var esEditar = this.arguments?.getBoolean("EDITAR")
         val numeroRep = view.findViewById<NumberPicker>(R.id.numeroRepeticiones)
 
         numeroRep.minValue = 1
@@ -33,27 +33,28 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
         numeroSeries.maxValue = 200
         numeroSeries.wrapSelectorWheel = true
         val updateObserver = Observer<EjercicioRutina?> {
-            if(it != null){
+            if (it != null) {
                 ejercicioRutina = it
-                numeroRep.value = it.repeticionesEjercicio
-                numeroSeries.value = it.seriesEjercicio
             }
 
         }
-        model.getEjercicioRutina.observe(requireActivity(),updateObserver)
-
+        model.getEjercicioRutina.observe(requireActivity(), updateObserver)
+        if (esEditar == true) {
+            numeroRep.value = ejercicioRutina?.repeticionesEjercicio!!
+            numeroSeries.value = ejercicioRutina?.seriesEjercicio!!
+        }
         val updateObserverEjercicio = Observer<Ejercicio> {
             ejercicio = it
         }
-        model.getEjercicio.observe(requireActivity(),updateObserverEjercicio)
+        model.getEjercicio.observe(requireActivity(), updateObserverEjercicio)
 
-        builder.setPositiveButton("Aceptar"
+        builder.setPositiveButton(
+            "Aceptar"
         ) { dialogo, _ ->
-            if (ejercicioRutina != null) {
+            if (esEditar == true) {
                 ejercicioRutina!!.seriesEjercicio = numeroSeries.value
                 ejercicioRutina!!.repeticionesEjercicio = numeroRep.value
                 model.setEjercicioRutinaEditado(ejercicioRutina!!)
-                model.setEjercicioRutina(null)
             } else {
                 ejercicioRutina = EjercicioRutina(
                     0, ejercicio, EjercicioRutinaPK(ejercicio.id, 0), 0.0,
@@ -62,7 +63,6 @@ class DialogoEditarEjercicioRutina : DialogFragment() {
                 model.setEjercicioRutinaAdd(ejercicioRutina)
                 model.setEjercicioRutinaBorrarLista(ejercicioRutina)
                 Toast.makeText(requireActivity(), "Ejercicio añadido", Toast.LENGTH_SHORT).show()
-                model.setEjercicioRutina(null)
 
             }
             dialogo.cancel()

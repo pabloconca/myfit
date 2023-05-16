@@ -55,9 +55,7 @@ class FragmentCrearRutina : Fragment() {
         if(listaAdd.isNotEmpty()){
             listaAdd.forEach { ejercicio ->
                 if(!listaEjercicios.contains(ejercicio)) {
-                    ejercicio.ejercicioRutinaPK = EjercicioRutinaPK(ejercicio.ejercicio.id,
-                        rutina.id ?: 0
-                    )
+                    ejercicio.ejercicioRutinaPK = EjercicioRutinaPK(ejercicio.ejercicio.id,rutina.id)
                     listaEjercicios.add(ejercicio)
                 }
             }
@@ -68,7 +66,7 @@ class FragmentCrearRutina : Fragment() {
             if (it != null) {
                 it.id = rutina.id
                 listaAdd.add(it)
-                model.setEjercicioRutinaAdd(null)
+                //model.setEjercicioRutinaAdd(null)
             }
 
         }
@@ -113,12 +111,14 @@ class FragmentCrearRutina : Fragment() {
                 model.setEjercicioRutina(ejercicioRutina)
                 if(ejercicioRutina.ejercicio.tipo == "Cardio"){
                     val dialogo = DialogoEditarEjercicioRutinaCardio()
+                    val bundle = Bundle()
+                    bundle.putBoolean("EDITAR",true)
+                    dialogo.arguments = bundle
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutinaCardio")
                     val updateObserver = Observer<EjercicioRutina?> {
                         if(it != null){
-                            listaEjercicios.remove(ejercicioRutina)
-                            ejercicioRutina = it
-                            listaEjercicios.add(ejercicioRutina)
+                            val indice = listaEjercicios.indexOfFirst { ejercicio -> ejercicio.ejercicio.id == it.ejercicio.id }
+                            listaEjercicios[indice] = it
                             model.setEjercicioRutinaEditado(null)
                             recargar()
                         }
@@ -127,17 +127,18 @@ class FragmentCrearRutina : Fragment() {
                     model.getEjercicioRutinaEditado.observe(requireActivity(),updateObserver)
                 }else{
                     val dialogo = DialogoEditarEjercicioRutina()
+                    val bundle = Bundle()
+                    bundle.putBoolean("EDITAR",true)
+                    dialogo.arguments = bundle
                     dialogo.show(parentFragmentManager,"DialogoEditarEjercicioRutina")
                     val updateObserver = Observer<EjercicioRutina?> {
-                        if(it != null){
-                            listaEjercicios.remove(ejercicioRutina)
-                            ejercicioRutina = it
-                            listaEjercicios.add(ejercicioRutina)
-                            model.setEjercicioRutinaEditado(null)
+                        if (it != null) {
+                            val indice = listaEjercicios.indexOfFirst { ejercicio -> ejercicio.ejercicio.id == it.ejercicio.id }
+                            listaEjercicios[indice] = it
                             recargar()
                         }
-
                     }
+
                     model.getEjercicioRutinaEditado.observe(requireActivity(),updateObserver)
                 }
 
