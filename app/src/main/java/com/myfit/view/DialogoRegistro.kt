@@ -69,7 +69,13 @@ class DialogoRegistro : DialogFragment() {
                                 Usuario(0, emailIntroducido, passIntroducida, userIntroducido)
                             AppController.insertarUsuario(user)
                             Utils.estaLogeado = true
-                            Utils.setUser(user)
+                            var listaActualizada = AppController.getUsuarios()
+                            if (listaActualizada != null) {
+                                var userNuevo = listaActualizada.find { usuarioActualizado -> usuarioActualizado.email == emailIntroducido }
+                                if (userNuevo != null) {
+                                    Utils.setUser(userNuevo)
+                                }
+                            }
                             withContext(Dispatchers.Main) {
                                 model.setTieneQueActualizarRutinas(true)
                                 model.setTieneQueActualizarUser(true)

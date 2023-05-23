@@ -102,16 +102,18 @@ class FragmentListaEjercicios : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().lowercase()
-                listaFiltrada.clear()
                 if(query.isEmpty()){
                     estaFiltrado = false
-                }
-                for (ejercicio in listaEjercicios) {
-                    if (ejercicio.nombre.lowercase().contains(query)) {
-                        listaFiltrada.add(ejercicio)
+                }else{
+                    listaFiltrada.clear()
+                    for (ejercicio in listaEjercicios) {
+                        if (ejercicio.nombre.lowercase().contains(query)) {
+                            listaFiltrada.add(ejercicio)
+                        }
                     }
+                    recargar(listaFiltrada)
                 }
-                recargar(listaFiltrada)
+                recargar()
             }
 
             override fun afterTextChanged(s: Editable?) {}
