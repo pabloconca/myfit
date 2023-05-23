@@ -45,24 +45,28 @@ class FragmentListaEjercicios : Fragment() {
         vista = view
         val rutina : Rutina? = arguments?.getParcelable("RUTINALISTA")
         recycler = view.findViewById(R.id.recyclerListaEjercicios)
-        CoroutineScope(Dispatchers.IO).launch {
-            val listaAEliminar = mutableListOf<Ejercicio>()
-            listaEjercicios = AppController.getEjercicios()!!
-            listaEjercicios.forEach { ejercicio ->
-                rutina?.ejercicioRutinaCollection?.forEach {
-                    if(ejercicio.id == it.ejercicio.id){
-                        listaAEliminar.add(ejercicio)
+        if(listaEjercicios.isEmpty()){
+            CoroutineScope(Dispatchers.IO).launch {
+                val listaAEliminar = mutableListOf<Ejercicio>()
+                listaEjercicios = AppController.getEjercicios()!!
+                listaEjercicios.forEach { ejercicio ->
+                    rutina?.ejercicioRutinaCollection?.forEach {
+                        if(ejercicio.id == it.ejercicio.id){
+                            listaAEliminar.add(ejercicio)
+                        }
                     }
 
                 }
-            }
-            listaAEliminar.forEach {
-                listaEjercicios.remove(it)
-            }
-            withContext(Dispatchers.Main){
-                recargar()
+
+                listaAEliminar.forEach {
+                    listaEjercicios.remove(it)
+                }
+                withContext(Dispatchers.Main){
+                    recargar()
+                }
             }
         }
+
         view.findViewById<ChipGroup>(R.id.chipGroup).setOnCheckedStateChangeListener { group, checkedIds ->
             if (checkedIds.size == 0) {
                 estaFiltrado = false
@@ -92,22 +96,22 @@ class FragmentListaEjercicios : Fragment() {
             recargar()
         }
         model.getEjercicioRutinaBorrarLista.observe(requireActivity(),updateObserver)
-
         recargar()
         view.findViewById<EditText>(R.id.et_search).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().lowercase()
-                val filteredList = mutableListOf<Ejercicio>()
-
+                listaFiltrada.clear()
+                if(query.isEmpty()){
+                    estaFiltrado = false
+                }
                 for (ejercicio in listaEjercicios) {
                     if (ejercicio.nombre.lowercase().contains(query)) {
-                        filteredList.add(ejercicio)
+                        listaFiltrada.add(ejercicio)
                     }
                 }
-                adaptador = AdaptadorListaEjercicios(filteredList)
-                recycler.adapter = adaptador
+                recargar(listaFiltrada)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -149,6 +153,7 @@ class FragmentListaEjercicios : Fragment() {
         adaptador = AdaptadorListaEjercicios(lista)
         clickManager()
         recycler.adapter = adaptador
+        estaFiltrado = true
     }
     private fun clickManager(){
         adaptador.clickCorto(object : View.OnClickListener {
@@ -162,6 +167,7 @@ class FragmentListaEjercicios : Fragment() {
                 if (navController.currentDestination?.id == R.id.fragmentListaEjercicios)
                     navController.navigate(R.id.action_fragmentListaEjercicios_to_fragmentDetalleEjercicio)
                 vista.findViewById<ChipGroup>(R.id.chipGroup).clearCheck()
+                vista.findViewById<EditText>(R.id.et_search).setText("")
 
             }
 

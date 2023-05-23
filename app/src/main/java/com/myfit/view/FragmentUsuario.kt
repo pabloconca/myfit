@@ -30,11 +30,11 @@ class FragmentUsuario : Fragment(){
         adaptador = AdaptadorRecyclerUsuario(settingsList,usuario)
         recycler = vista.findViewById(R.id.recycler)
         clickManager()
+
         val updateObserver = Observer<Boolean> {
             if (it) {
                 recargarDatos()
                 clickManager()
-                model.setTieneQueActualizarUser(false)
             }
         }
         model.getTieneQueActualizarUser.observe(requireActivity(),updateObserver)
