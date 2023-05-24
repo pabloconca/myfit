@@ -104,6 +104,7 @@ class FragmentListaEjercicios : Fragment() {
                 val query = s.toString().lowercase()
                 if(query.isEmpty()){
                     estaFiltrado = false
+                    recargar()
                 }else{
                     listaFiltrada.clear()
                     for (ejercicio in listaEjercicios) {
@@ -113,7 +114,9 @@ class FragmentListaEjercicios : Fragment() {
                     }
                     recargar(listaFiltrada)
                 }
-                recargar()
+                if(listaFiltrada.isEmpty()){
+                    recargar()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}

@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.myfit.R
 import com.myfit.adaptadores.AdaptadorEjerciciosRutina
+import com.myfit.adaptadores.AdaptadorEjerciciosRutinaCopiar
 import com.myfit.controladores.AppController
 import com.myfit.modelo.EjercicioRutina
 import com.myfit.modelo.Rutina
@@ -23,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentCopiarRutina : Fragment() {
-    lateinit var adaptador : AdaptadorEjerciciosRutina
+    lateinit var adaptador : AdaptadorEjerciciosRutinaCopiar
     lateinit var recycler : RecyclerView
     private val model:DataViewModel by activityViewModels()
     lateinit var listaEjercicios : MutableList<EjercicioRutina>
@@ -38,7 +39,7 @@ class FragmentCopiarRutina : Fragment() {
         val rutina : Rutina? = arguments?.getParcelable("RutinaEdit")
         rutina?.let {
             nombreRutina.setText(it.nombre)
-            adaptador = AdaptadorEjerciciosRutina(rutina.ejercicioRutinaCollection)
+            adaptador = AdaptadorEjerciciosRutinaCopiar(rutina.ejercicioRutinaCollection)
             recycler.adapter = adaptador
             listaEjercicios = rutina.ejercicioRutinaCollection as MutableList<EjercicioRutina>
 
@@ -49,8 +50,7 @@ class FragmentCopiarRutina : Fragment() {
                 if (rutina != null) {
                     rutina.id = 0
                     rutina.idUsuario = Utils.usuarioActual
-                    val lista = rutina.ejercicioRutinaCollection//TODO quitar estas dos lineas
-                    rutina.ejercicioRutinaCollection = lista
+                    rutina.ejercicioRutinaCollection = rutina.ejercicioRutinaCollection
                     AppController.insertarRutina(rutina)
                     val navController= NavHostFragment.findNavController(this@FragmentCopiarRutina)
                     if (navController.currentDestination?.id == R.id.fragmentCopiarRutina)
@@ -64,12 +64,6 @@ class FragmentCopiarRutina : Fragment() {
         return view
     }
     private fun clickManager(){
-        adaptador.clickCorto(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-
-
-            }
-        })
         adaptador.clickLargo(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
                 val posicion=recycler.getChildAdapterPosition(p0!!)
